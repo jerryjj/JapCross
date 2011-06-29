@@ -9,12 +9,12 @@ Item {
     //scale: gameEngine.zoomLevel
     scale: 1.0
 
-    Image {
+    /*Image {
         id: gbBackground
         anchors.fill: parent
-        source: "images/background.jpg"
+        source: "images/background.png"
         //fillMode: Image.PreserveAspectCrop
-    }
+    }*/
 
     Flickable {
         scale: 1.0 //0.4

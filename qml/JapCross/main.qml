@@ -9,6 +9,13 @@ Item {
         menuPanel.state = "showMain";
     }
 
+    Image {
+        id: background
+        anchors.fill: parent
+        source: "images/background.png"
+        //fillMode: Image.PreserveAspectCrop
+    }
+
     Item {
         id: menuButton
         width: 80

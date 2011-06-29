@@ -3,3 +3,5 @@
 *.o
 moc_*.*
 Makefile
+qrc_assets.cpp
+design/

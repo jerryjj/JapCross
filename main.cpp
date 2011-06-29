@@ -4,7 +4,7 @@
 #include <mainwidget.h>
 
 #include <QFont>
-//#include <QSplashScreen>
+#include <QSplashScreen>
 
 #include <QDesktopWidget>
 
@@ -18,9 +18,9 @@ int main(int argc, char *argv[])
     viewer.showExpanded();*/
 
     // Splash screen
-    //QPixmap pixmap(":/ui/images/splash-800x480.png");
-    //QSplashScreen splash(pixmap);
-    //splash.show();
+    QPixmap pixmap(":/images/splash-screen-800x480.png");
+    QSplashScreen splash(pixmap);
+    splash.show();
 
     QFont newFont("Mangal");
     QApplication::setFont(newFont);
@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
 
     QDesktopWidget *dw = QApplication::desktop();
 
-    //splash.showMessage("Preparing geometries...");
-    //a.processEvents();
+    splash.showMessage("Preparing geometries...");
+    a.processEvents();
 
 #if defined(Q_WS_S60)
     mw.setGeometry(dw->geometry());
@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
     mw.setGeometry(QRect(0,0,800,600));
 #endif
 
-    //splash.showMessage("All done");
-    //a.processEvents();
+    splash.showMessage("All done");
+    a.processEvents();
 
 #if defined(Q_WS_S60)
     mw.showFullScreen();
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     mw.show();
 #endif
 
-    //splash.finish(&mw);
+    splash.finish(&mw);
 
     return a.exec();
 }

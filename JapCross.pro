@@ -57,3 +57,6 @@ HEADERS += \
     playablesquare.h \
     statemachine.h \
     mainwidget.h
+
+RESOURCES += \
+    assets.qrc

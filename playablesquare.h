@@ -28,9 +28,9 @@ signals:
 public slots:
     int getCurrentStatus();
 
-private:
+private:    
     bool m_inuse;
-    bool m_active;
+    bool m_active;    
 };
 
 #endif // PLAYABLESQUARE_H

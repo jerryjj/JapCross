@@ -18,9 +18,9 @@ Item {
 
     Item {
         id: menuButton
-        width: 80
-        height: 80
-        anchors { top: parent.top; left: parent.left; leftMargin: 10 }
+        width: 60
+        height: 60
+        anchors { top: parent.top; left: parent.left; leftMargin: 5 }
 
         z: 100
         opacity: (stateMachine.gameUIVisible ? 1 : 0)

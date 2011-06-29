@@ -41,10 +41,16 @@ Item {
                 anchors.fill: parent
                 border.width: 1
 
-                Rectangle {
+                /*Rectangle {
                     anchors.fill:  parent
                     color: "lightgrey"
                     visible: !modelData.active
+                }*/
+                Text {
+                    anchors.centerIn:  parent
+                    color: "#333333"
+                    text: "X"
+                    font.pointSize: 20
                 }
 
                 Rectangle {

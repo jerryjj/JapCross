@@ -38,7 +38,8 @@ SOURCES += main.cpp \
     gameengine.cpp \
     playablesquare.cpp \
     statemachine.cpp \
-    mainwidget.cpp
+    mainwidget.cpp \
+    numbersquare.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -56,7 +57,8 @@ HEADERS += \
     gameengine.h \
     playablesquare.h \
     statemachine.h \
-    mainwidget.h
+    mainwidget.h \
+    numbersquare.h
 
 RESOURCES += \
     assets.qrc

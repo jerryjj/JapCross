@@ -12,6 +12,7 @@
 
 #include <gameengine.h>
 #include <playablesquare.h>
+#include <numbersquare.h>
 #include <statemachine.h>
 
 #include <QDebug>
@@ -35,6 +36,7 @@ MainWidget::MainWidget(QWidget *parent) :
     setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
     qmlRegisterType<PlayableSquare>("gameCore", 1, 0, "PlayableSquare");
+    qmlRegisterType<NumberSquare>("gameCore", 1, 0, "NumberSquare");
 
     // Setup context
     m_context = rootContext();

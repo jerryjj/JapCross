@@ -20,28 +20,15 @@ Item {
         scale: 1.0 //0.4
         id: boardFlickable
         width: parent.width; height: parent.height
-        contentWidth: boardGrid.width
-        contentHeight: boardGrid.height
+        contentWidth: boardLevel.width + 100
+        contentHeight: boardLevel.height + 100
         maximumFlickVelocity: 500
         flickDeceleration: 1000
 
-        /*Item {
-            id: boardGrid
-            width: 400
-            height: 500
+        Level {
+            id: boardLevel
+            //anchors {topMargin: 20; leftMargin: 20}
             anchors.centerIn: parent
-        }*/
-
-        Grid {
-            id: boardGrid
-            columns: 10 //gameEngine.columnCount
-            spacing: 0
-            anchors.centerIn: parent
-
-            Repeater {
-                model: gameEngine.playableSquares
-                PlayableSquare {}
-            }
         }
     }
 

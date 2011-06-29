@@ -8,14 +8,15 @@ Item {
     Component.onCompleted: {
     }
 
-    /*
-    Image {
-        id: menuBackground
-        anchors.fill: parent
-        source: "images/background.jpg"
-        //fillMode: Image.PreserveAspectCrop
+    Item {
+        width: 610; height: 116
+        anchors { top: parent.top; topMargin: 50; horizontalCenter: parent.horizontalCenter }
+
+        Image {
+            id: logo
+            source: "../images/logo.png"
+        }
     }
-    */
 
     Frame {
         id: startMenuFrame

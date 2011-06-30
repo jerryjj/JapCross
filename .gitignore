@@ -5,3 +5,7 @@ moc_*.*
 Makefile
 qrc_assets.cpp
 design/
+JapCross
+debian/
+japcross_*.changes
+*.deb

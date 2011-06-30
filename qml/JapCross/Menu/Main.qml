@@ -9,6 +9,7 @@ Item {
     }
 
     Item {
+        id: logoholder
         width: 610; height: 116
         anchors { top: parent.top; topMargin: 50; horizontalCenter: parent.horizontalCenter }
 
@@ -22,9 +23,7 @@ Item {
         id: startMenuFrame
         width: parent.width - 100
         height: (2*60) + 50
-        anchors.verticalCenter: parent.verticalCenter
-
-        x: 50
+        anchors {horizontalCenter: parent.horizontalCenter; top: logoholder.bottom; topMargin: 20}
 
         opacity: 0
         scale: 0

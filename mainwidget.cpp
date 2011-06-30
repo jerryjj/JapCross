@@ -1,8 +1,12 @@
 #include "mainwidget.h"
 
 #include <QDeclarativeItem>
+
+#if defined(OPENGL_ENABLED)
 #include <QGLWidget>
 #include <QGLFormat>
+#endif
+
 #include <QUrl>
 #include <QApplication>
 #include <QDeclarativeEngine>
@@ -21,7 +25,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QDeclarativeView(parent)
 {
     // Switch to fullscreen in device
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5)
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_MEEGO) || defined(Q_WS_MAEMO_6)
     setWindowState(Qt::WindowFullScreen);
 #endif
 
@@ -45,9 +49,12 @@ MainWidget::MainWidget(QWidget *parent) :
     m_context->setContextProperty("stateMachine", &stateMachine());
 
     // Set view optimizations not already done for QDeclarativeView
+#if !defined(Q_WS_MEEGO) && !defined(Q_WS_MAEMO_6)
     setAttribute(Qt::WA_OpaquePaintEvent);
     setAttribute(Qt::WA_NoSystemBackground);
+#endif
 
+#if !defined(Q_WS_MEEGO) && !defined(Q_WS_MAEMO_6)
     // Set auto orientation
     Qt::WidgetAttribute attribute;
 #if QT_VERSION < 0x040702
@@ -56,6 +63,7 @@ MainWidget::MainWidget(QWidget *parent) :
     attribute = Qt::WA_AutoOrientation;
 #endif
     setAttribute(attribute, true);
+#endif
 
 #if defined(OPENGL_ENABLED)
     // Make QDeclarativeView use OpenGL backend
@@ -65,8 +73,8 @@ MainWidget::MainWidget(QWidget *parent) :
 #endif
 
     // Open root QML file
-    QString mainqml(m_adjustPath(uiPath + "main.qml"));
-    setSource(QUrl(mainqml)); //QUrl::fromLocalFile
+    //QString mainqml(m_adjustPath(uiPath + "main.qml"));
+    setSource(QUrl(uiPath + "main.qml")); //QUrl::fromLocalFile
 
     connect(engine(), SIGNAL(quit()), SLOT(close()));
 }

@@ -2,8 +2,10 @@ import QtQuick 1.0
 
 import "Menu" 1.0 as Menu
 
-Item {
+AppWindow {
     id: main
+
+    property bool portrait: true
 
     Component.onCompleted: {
         menuPanel.state = "showMain";

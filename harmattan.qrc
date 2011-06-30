@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="qml/JapCross/AppWindow.qml">qml/JapCross/harmattan.qml</file>
+    </qresource>
+</RCC>

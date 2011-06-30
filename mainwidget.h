@@ -7,8 +7,8 @@
 
 #include <gameengine.h>
 
-//const QString uiPath = "qrc:/ui/";
-const QString uiPath = "qml/JapCross/";
+const QString uiPath = "qrc:/qml/JapCross/";
+//const QString uiPath = "qml/JapCross/";
 
 class MainWidget : public QDeclarativeView
 {

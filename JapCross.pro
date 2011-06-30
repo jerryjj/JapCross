@@ -24,7 +24,6 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # MOBILITY +=
 
 contains(QT_CONFIG, opengles2)|contains(QT_CONFIG, opengl):DEFINES += OPENGL_ENABLED
-
 contains(DEFINES, OPENGL_ENABLED):QT += opengl
 
 contains(QT, opengl) {
@@ -67,4 +66,39 @@ HEADERS += \
     numbersquare.h
 
 RESOURCES += \
-    assets.qrc
+    assets.qrc \
+    ui.qrc
+
+# Harmattan
+unix:!symbian:!maemo5:!macx {
+    message(Harmattan build)
+    DEFINES += Q_WS_HARMATTAN
+    DEFINES += Q_WS_MAEMO_6
+
+    RESOURCES += harmattan.qrc
+    OTHER_FILES += \
+        qml/JapCross/harmattan.qml
+
+    target.path = /opt/usr/bin
+
+    desktopfile.files = qtc_packaging/debian_harmattan/$${TARGET}.desktop
+    desktopfile.path = /usr/share/applications
+
+    icon.files = icons/icon-64x64.png
+    icon.path = /usr/share/icons/hicolor/64x64/apps
+
+    INSTALLS += \
+        target \
+        desktopfile \
+        icon
+
+    # enable booster
+    CONFIG += qdeclarative-boostable
+    QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
+    QMAKE_LFLAGS += -pie -rdynamic
+} else {
+    message(Desktop build)
+    RESOURCES += no_components.qrc
+    OTHER_FILES += \
+        qml/JapCross/no_components.qml
+}

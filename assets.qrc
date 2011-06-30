@@ -2,4 +2,9 @@
     <qresource prefix="/images">
         <file alias="splash-screen-800x480.png">qml/JapCross/images/splash-screen-800x480.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>qml/JapCross/images/background.png</file>
+        <file>qml/JapCross/images/logo.png</file>
+        <file>qml/JapCross/images/menu.png</file>
+    </qresource>
 </RCC>

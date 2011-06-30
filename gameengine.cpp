@@ -65,6 +65,8 @@ void GameEngine::m_prepareColumns()
 
     m_sideColumns.at(0)->setInUse(true);
     m_sideColumns.at(0)->setValue(1);
+    //m_sideColumns.at(10)->setInUse(true);
+    //m_sideColumns.at(10)->setValue(1);
 
     emit playableSquaresChanged();
     emit topColumnsChanged();

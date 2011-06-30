@@ -3,7 +3,7 @@
 *.o
 moc_*.*
 Makefile
-qrc_assets.cpp
+qrc_*.cpp
 design/
 /JapCross
 debian/

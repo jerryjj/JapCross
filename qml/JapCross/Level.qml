@@ -6,6 +6,18 @@ Item {
     width: (leftHeader.width * 2) + pictureGrid.width + 40
     height: (topHeader.height * 2) + pictureGrid.height + 40
 
+    Connections {
+        target: gameEngine
+
+        onLevelFinished: {
+            bgRect.opacity = 1;
+            topHeader.opacity = 0.1;
+            bottomHeader.opacity = 0.1;
+            leftHeader.opacity = 0.1;
+            rightHeader.opacity = 0.1;
+        }
+    }
+
     Item {
         anchors.fill: parent
         anchors.topMargin: 40
@@ -34,6 +46,14 @@ Item {
                     hpos: "left"
                 }
             }
+        }
+
+        Rectangle {
+            id: bgRect
+            color: "#fff"
+            width: pictureGrid.width; height: pictureGrid.height
+            anchors {left: pictureGrid.left; top: pictureGrid.top}
+            opacity: 0
         }
 
         Grid {

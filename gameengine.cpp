@@ -26,7 +26,8 @@ void GameEngine::m_prepareColumns()
     int level_rows = 10;
     int level_cols = 10;
 
-    QString tmp_lst = "0,11,22,33,44,55,66,77,88,99";
+    //QString tmp_lst = "0,11,22,33,44,55,66,77,88,99";
+    QString tmp_lst = "0,9,11,18,22,27,33,36,44,45,55,54,66,63,77,72,88,81,99,90";
 
     QStringListIterator it(tmp_lst.split(","));
     while (it.hasNext())
@@ -38,14 +39,32 @@ void GameEngine::m_prepareColumns()
     m_tbheaders.clear();
     for (int i=0; i<level_cols; ++i) {
         HeaderGroup *g = new HeaderGroup;
-        g->insertItem(1);
+        if (required_squares.count() == 20) {
+            if (i == 4 || i == 5) {
+                g->insertItem(2);
+            } else {
+                g->insertItem(1);
+                g->insertItem(1);
+            }
+        } else {
+            g->insertItem(1);
+        }
         m_tbheaders.insert(i, g);
     }
 
     m_lrheaders.clear();
     for (int i=0; i<level_rows; ++i) {
         HeaderGroup *g = new HeaderGroup;
-        g->insertItem(1);
+        if (required_squares.count() == 20) {
+            if (i == 4 || i == 5) {
+                g->insertItem(2);
+            } else {
+                g->insertItem(1);
+                g->insertItem(1);
+            }
+        } else {
+            g->insertItem(1);
+        }
         m_lrheaders.insert(i, g);
     }
 
@@ -68,6 +87,7 @@ void GameEngine::m_prepareColumns()
 
 void GameEngine::markPlayableSquare(int index)
 {
+    //qDebug() << "markPlayableSquare" << index;
     PlayableSquare *s = psquare(index);
 
     if (!s) return;
@@ -78,7 +98,7 @@ void GameEngine::markPlayableSquare(int index)
         s->setInUse(true);
 
         if (required_squares.contains(index)) {
-            qDebug() << "found required cell at" << index;
+            //qDebug() << "found required cell at" << index;
             m_lvl_cols_left -= 1;
         } else {
             m_lvl_cols_over += 1;
@@ -89,7 +109,7 @@ void GameEngine::markPlayableSquare(int index)
             s->setActive(false);
 
             if (required_squares.contains(index)) {
-                qDebug() << "found required cell at" << index;
+                //qDebug() << "found required cell at" << index;
                 m_lvl_cols_left += 1;
             } else {
                 m_lvl_cols_over -= 1;
@@ -103,8 +123,10 @@ void GameEngine::markPlayableSquare(int index)
 
     qDebug() << "m_lvl_cols_left:" << m_lvl_cols_left;
     qDebug() << "m_lvl_cols_over:" << m_lvl_cols_over;
-    if (m_lvl_cols_left == 0 && m_lvl_cols_over == 0)
+    if (m_lvl_cols_left == 0 && m_lvl_cols_over == 0) {
         qDebug() << "level finished!";
+        emit levelFinished();
+    }
 }
 
 void GameEngine::markTopColumnSquare(int col, int row)

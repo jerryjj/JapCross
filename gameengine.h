@@ -31,6 +31,8 @@ signals:
     void tbHeadersChanged();
     void lrHeadersChanged();
 
+    void levelFinished();
+
 public slots:
     void markPlayableSquare(int index);
     void markTopColumnSquare(int col, int row);

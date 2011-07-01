@@ -1,5 +1,4 @@
 #include <QtGui/QApplication>
-//#include "qmlapplicationviewer.h"
 
 #include <mainwidget.h>
 
@@ -12,11 +11,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    /*QmlApplicationViewer viewer;
-    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-    viewer.setMainQmlFile(QLatin1String("qml/JapCross/main.qml"));
-    viewer.showExpanded();*/
-
     // Splash screen
     QPixmap pixmap(":/images/splash-screen-800x480.png");
     QSplashScreen splash(pixmap);
@@ -27,28 +21,26 @@ int main(int argc, char *argv[])
 
     a.setOrganizationName("Infigo Finland Oy");
     a.setOrganizationDomain("infigo.fi");
-    a.setApplicationName("Japanese Crosswords");
+    a.setApplicationName("MNonograms");
 
     MainWidget mw;
 
-    //splash.showMessage("Loading levels...");
-    //a.processEvents();
+    splash.showMessage("Loading levels...");
+    a.processEvents();
 
     //TODO: Load levels
 
-    //splash.showMessage("Levels loaded...");
-    //a.processEvents();
+    splash.showMessage("Levels loaded...");
+    a.processEvents();
 
     QDesktopWidget *dw = QApplication::desktop();
 
     splash.showMessage("Preparing geometries...");
     a.processEvents();
 
-#if defined(Q_WS_S60)
-    mw.setGeometry(dw->geometry());
-#elif defined(Q_WS_MAEMO_5)
-    mw.setGeometry(dw->geometry());
-#elif defined(Q_WS_MEEGO) || defined(Q_WS_MAEMO_6)
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR) || \
+    defined(Q_WS_MAEMO_5) || defined(Q_WS_HARMATTAN) || \
+    defined(Q_WS_MEEGO)
     mw.setGeometry(dw->geometry());
 #else
     Q_UNUSED(dw);
@@ -58,17 +50,14 @@ int main(int argc, char *argv[])
     splash.showMessage("All done");
     a.processEvents();
 
-#if defined(Q_WS_S60)
-    mw.showFullScreen();
-#elif defined(Q_WS_MAEMO_5)
-    mw.showFullScreen();
-#elif defined(Q_WS_MEEGO) || defined(Q_WS_MAEMO_6)
+    splash.finish(&mw);
+
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR) || \
+    defined(Q_WS_MAEMO_5) || defined(Q_WS_HARMATTAN)
     mw.showFullScreen();
 #else
     mw.show();
 #endif
-
-    splash.finish(&mw);
 
     return a.exec();
 }

@@ -1,14 +1,14 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/JapCross/GameBoard.qml</file>
-        <file>qml/JapCross/harmattan.qml</file>
         <file>qml/JapCross/Level.qml</file>
         <file>qml/JapCross/main.qml</file>
-        <file>qml/JapCross/no_components.qml</file>
         <file>qml/JapCross/NumberColumn.qml</file>
         <file>qml/JapCross/PlayableSquare.qml</file>
         <file>qml/JapCross/Menu/Button.qml</file>
         <file>qml/JapCross/Menu/Frame.qml</file>
         <file>qml/JapCross/Menu/Main.qml</file>
+        <file>qml/JapCross/TopColumn.qml</file>
+        <file>qml/JapCross/SideRow.qml</file>
     </qresource>
 </RCC>

@@ -3,76 +3,76 @@ import QtQuick 1.0
 Item {
     id: level
 
-    Grid {
-        id: topGrid
-        columns: 10 //gameEngine.columnCount
-        //rows: gameEngine.rowCount
-        spacing: 0
-        anchors {left: leftGrid.right; top: parent.top}
+    width: (leftHeader.width * 2) + pictureGrid.width + 40
+    height: (topHeader.height * 2) + pictureGrid.height + 40
 
-        Repeater {
-            model: gameEngine.topColumns
-            NumberColumn {
-                cpos:  "top"
+    Item {
+        anchors.fill: parent
+        anchors.topMargin: 40
+        anchors.leftMargin: 40
+
+        Row {
+            id: topHeader
+            anchors {left: leftHeader.right; top: parent.top}
+
+            Repeater {
+                model: gameEngine.tbHeaders //gameEngine.level.tbHeaders
+                TopColumn {
+                    hpos: "top"
+                }
+            }
+        }
+
+        Grid {
+            id: leftHeader
+            anchors {left: parent.left; top: topHeader.bottom}
+            columns: 1
+
+            Repeater {
+                model: gameEngine.lrHeaders //gameEngine.level.lrHeaders
+                SideRow {
+                    hpos: "left"
+                }
+            }
+        }
+
+        Grid {
+            id: pictureGrid
+            columns: 10 //gameEngine.level.columnCount
+            //rows: gameEngine.level.rowCount
+            spacing: 0
+            anchors {left: leftHeader.right; top: topHeader.bottom}
+
+            Repeater {
+                model: gameEngine.playableSquares //gameEngine.level.playableSquares
+                PlayableSquare {}
+            }
+        }
+
+        Row {
+            id: bottomHeader
+            anchors {left: leftHeader.right; top: pictureGrid.bottom}
+
+            Repeater {
+                model: gameEngine.tbHeaders //gameEngine.level.tbHeaders
+                TopColumn {
+                    hpos: "bottom"
+                }
+            }
+        }
+
+        Grid {
+            id: rightHeader
+            anchors {left: pictureGrid.right; top: topHeader.bottom}
+            columns: 1
+
+            Repeater {
+                model: gameEngine.lrHeaders //gameEngine.level.lrHeaders
+                SideRow {
+                    hpos: "right"
+                }
             }
         }
     }
 
-    Grid {
-        id: leftGrid
-        columns: 10 //gameEngine.columnCount
-        //rows: gameEngine.rowCount
-        spacing: 0
-        anchors {left: parent.left; top: topGrid.bottom}
-
-        Repeater {
-            model: gameEngine.sideColumns
-            NumberColumn {
-                cpos:  "left"
-            }
-        }
-    }
-
-    Grid {
-        id: pictureGrid
-        columns: 10 //gameEngine.columnCount
-        //rows: gameEngine.rowCount
-        spacing: 0
-        anchors {left: leftGrid.right; top: topGrid.bottom}
-
-        Repeater {
-            model: gameEngine.playableSquares
-            PlayableSquare {}
-        }
-    }
-
-    Grid {
-        id: bottomGrid
-        columns: 10 //gameEngine.columnCount
-        //rows: gameEngine.rowCount
-        spacing: 0
-        anchors {left: leftGrid.right; top: pictureGrid.bottom}
-
-        Repeater {
-            model: gameEngine.topColumns
-            NumberColumn {
-                cpos:  "bottom"
-            }
-        }
-    }
-
-    Grid {
-        id: rightGrid
-        columns: 10 //gameEngine.columnCount
-        //rows: gameEngine.rowCount
-        spacing: 0
-        anchors {left: pictureGrid.right; top: topGrid.bottom}
-
-        Repeater {
-            model: gameEngine.sideColumns
-            NumberColumn {
-                cpos:  "right"
-            }
-        }
-    }
 }

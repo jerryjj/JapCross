@@ -8,6 +8,7 @@
 #endif
 
 #include <QUrl>
+#include <QTimer>
 #include <QApplication>
 #include <QDeclarativeEngine>
 
@@ -15,9 +16,11 @@
 #include <QtCore/QFileInfo>
 
 #include <gameengine.h>
+#include <statemachine.h>
+
 #include <playablesquare.h>
 #include <numbersquare.h>
-#include <statemachine.h>
+#include <headergroup.h>
 
 #include <QDebug>
 
@@ -25,7 +28,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QDeclarativeView(parent)
 {
     // Switch to fullscreen in device
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_MEEGO) || defined(Q_WS_MAEMO_6)
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_MEEGO) || defined(Q_WS_HARMATTAN)
     setWindowState(Qt::WindowFullScreen);
 #endif
 
@@ -41,6 +44,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
     qmlRegisterType<PlayableSquare>("gameCore", 1, 0, "PlayableSquare");
     qmlRegisterType<NumberSquare>("gameCore", 1, 0, "NumberSquare");
+    qmlRegisterType<HeaderGroup>("gameCore", 1, 0, "HeaderGroup");
 
     // Setup context
     m_context = rootContext();
@@ -49,12 +53,12 @@ MainWidget::MainWidget(QWidget *parent) :
     m_context->setContextProperty("stateMachine", &stateMachine());
 
     // Set view optimizations not already done for QDeclarativeView
-#if !defined(Q_WS_MEEGO) && !defined(Q_WS_MAEMO_6)
+#if !defined(Q_WS_MEEGO) && !defined(Q_WS_HARMATTAN)
     setAttribute(Qt::WA_OpaquePaintEvent);
     setAttribute(Qt::WA_NoSystemBackground);
 #endif
 
-#if !defined(Q_WS_MEEGO) && !defined(Q_WS_MAEMO_6)
+#if !defined(Q_WS_MEEGO) && !defined(Q_WS_HARMATTAN)
     // Set auto orientation
     Qt::WidgetAttribute attribute;
 #if QT_VERSION < 0x040702
@@ -72,9 +76,7 @@ MainWidget::MainWidget(QWidget *parent) :
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 #endif
 
-    // Open root QML file
-    //QString mainqml(m_adjustPath(uiPath + "main.qml"));
-    setSource(QUrl(uiPath + "main.qml")); //QUrl::fromLocalFile
+    setSource(QUrl(uiPath + "main.qml"));
 
     connect(engine(), SIGNAL(quit()), SLOT(close()));
 }

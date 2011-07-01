@@ -16,19 +16,20 @@ Item {
         //fillMode: Image.PreserveAspectCrop
     }*/
 
+    clip: true
+
     Flickable {
-        scale: 1.0 //0.4
         id: boardFlickable
-        width: parent.width; height: parent.height
-        contentWidth: boardLevel.width + 100
-        contentHeight: boardLevel.height + 100
+        //width: parent.width - 150; height:  parent.height
+        //anchors.verticalCenter: parent.verticalCenter
+        anchors.fill:  parent
+        contentWidth: boardLevel.width
+        contentHeight: boardLevel.height
         maximumFlickVelocity: 500
         flickDeceleration: 1000
 
         Level {
-            id: boardLevel
-            //anchors {topMargin: 20; leftMargin: 20}
-            anchors.centerIn: parent
+            id: boardLevel            
         }
     }
 

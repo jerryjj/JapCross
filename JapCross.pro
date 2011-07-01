@@ -38,7 +38,8 @@ SOURCES += main.cpp \
     playablesquare.cpp \
     statemachine.cpp \
     mainwidget.cpp \
-    numbersquare.cpp
+    numbersquare.cpp \
+    headergroup.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -63,17 +64,25 @@ HEADERS += \
     playablesquare.h \
     statemachine.h \
     mainwidget.h \
-    numbersquare.h
+    numbersquare.h \
+    headergroup.h
 
 RESOURCES += \
     assets.qrc \
     ui.qrc
 
+maemo5 {
+    icon.files = icons/icon-64x64.png
+    icon.path = /usr/share/icons/hicolor/64x64/apps
+
+    INSTALLS += \
+        icon
+}
+
 # Harmattan
 unix:!symbian:!maemo5:!macx {
     message(Harmattan build)
     DEFINES += Q_WS_HARMATTAN
-    DEFINES += Q_WS_MAEMO_6
 
     RESOURCES += harmattan.qrc
     OTHER_FILES += \
@@ -84,7 +93,7 @@ unix:!symbian:!maemo5:!macx {
     desktopfile.files = qtc_packaging/debian_harmattan/$${TARGET}.desktop
     desktopfile.path = /usr/share/applications
 
-    icon.files = icons/icon-64x64.png
+    icon.files = icons/icon-harmattan-64x64.png
     icon.path = /usr/share/icons/hicolor/64x64/apps
 
     INSTALLS += \

@@ -3,6 +3,7 @@ import QtQuick 1.0
 Item {
     id: column
 
+    property int idx: 0
     property string cpos: "top"
 
     width: ((cpos == "top" || cpos == "bottom") ? 40 : (modelData.inUse ? 25 : 0))
@@ -11,8 +12,8 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            if (cpos == "top" || cpos == "bottom") gameEngine.markTopColumnSquare(index);
-            else if (cpos == "left" || cpos == "right") gameEngine.markSideColumnSquare(index);
+            if (cpos == "top" || cpos == "bottom") gameEngine.markTopColumnSquare(idx, index);
+            else if (cpos == "left" || cpos == "right") gameEngine.markSideColumnSquare(idx, index);
         }
     }
 

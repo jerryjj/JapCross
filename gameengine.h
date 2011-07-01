@@ -6,6 +6,7 @@
 
 #include <playablesquare.h>
 #include <numbersquare.h>
+#include <headergroup.h>
 
 class GameEngine : public QObject
 {
@@ -19,30 +20,35 @@ public:
     Q_PROPERTY(QDeclarativeListProperty<PlayableSquare> playableSquares READ playableSquares NOTIFY playableSquaresChanged)
     QDeclarativeListProperty<PlayableSquare> playableSquares() {return QDeclarativeListProperty<PlayableSquare>(this, m_playableSquares);}
 
-    Q_PROPERTY(QDeclarativeListProperty<NumberSquare> topColumns READ topColumns NOTIFY topColumnsChanged)
-    QDeclarativeListProperty<NumberSquare> topColumns() {return QDeclarativeListProperty<NumberSquare>(this, m_topColumns);}
+    Q_PROPERTY(QDeclarativeListProperty<HeaderGroup> tbHeaders READ tbHeaders NOTIFY tbHeadersChanged)
+    QDeclarativeListProperty<HeaderGroup> tbHeaders() {return QDeclarativeListProperty<HeaderGroup>(this, m_tbheaders);}
 
-    Q_PROPERTY(QDeclarativeListProperty<NumberSquare> sideColumns READ sideColumns NOTIFY sideColumnsChanged)
-    QDeclarativeListProperty<NumberSquare> sideColumns() {return QDeclarativeListProperty<NumberSquare>(this, m_sideColumns);}
+    Q_PROPERTY(QDeclarativeListProperty<HeaderGroup> lrHeaders READ lrHeaders NOTIFY lrHeadersChanged)
+    QDeclarativeListProperty<HeaderGroup> lrHeaders() {return QDeclarativeListProperty<HeaderGroup>(this, m_lrheaders);}
 
 signals:
     void playableSquaresChanged();
-    void topColumnsChanged();
-    void sideColumnsChanged();
+    void tbHeadersChanged();
+    void lrHeadersChanged();
 
 public slots:
     void markPlayableSquare(int index);
-    void markTopColumnSquare(int index);
-    void markSideColumnSquare(int index);
+    void markTopColumnSquare(int col, int row);
+    void markSideColumnSquare(int row, int col);
 
 private:
     PlayableSquare *psquare(int index) const {return (index >= 0 && index < m_playableSquares.count()) ? m_playableSquares.at(index) : 0;}
-    NumberSquare *snsquare(int index) const {return (index >= 0 && index < m_sideColumns.count()) ? m_sideColumns.at(index) : 0;}
-    NumberSquare *tnsquare(int index) const {return (index >= 0 && index < m_topColumns.count()) ? m_topColumns.at(index) : 0;}
+    NumberSquare *lrsquare(int row, int col) const {return (row >= 0 && row < m_lrheaders.count()) ? m_lrheaders.at(row)->square(col) : 0;}
+    NumberSquare *tbsquare(int col, int row) const {return (col >= 0 && col < m_tbheaders.count()) ? m_tbheaders.at(col)->square(row) : 0;}
 
     QList<PlayableSquare *> m_playableSquares;
-    QList<NumberSquare *> m_sideColumns;
-    QList<NumberSquare *> m_topColumns;
+
+    QList<HeaderGroup *> m_tbheaders;
+    QList<HeaderGroup *> m_lrheaders;
+
+    int m_lvl_cols_left;
+    int m_lvl_cols_over;
+    QList<int> required_squares;
 
     //Storage* m_storage;
 

@@ -73,10 +73,6 @@ Item {
                 opacity: 1
                 scale: 1.0
             }
-            PropertyChanges {
-                target: menuButton
-                opacity: 0
-            }
         },
         State {
             name: "hideAndLoadLevel"
@@ -84,10 +80,6 @@ Item {
             PropertyChanges {
                 target: startMenu
                 opacity: 0
-            }
-            PropertyChanges {
-                target: menuButton
-                opacity: 1
             }
         }
     ]

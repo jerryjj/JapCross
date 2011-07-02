@@ -3,8 +3,10 @@ import QtQuick 1.0
 Item {
     id: level
 
-    width: (leftHeader.width * 2) + pictureGrid.width + 40
-    height: (topHeader.height * 2) + pictureGrid.height + 40
+    property int innerMargin: 10
+
+    width: (leftHeader.width * 2) + pictureGrid.width + (innerMargin * 2)
+    height: (topHeader.height * 2) + pictureGrid.height + (innerMargin * 2)
 
     Connections {
         target: gameEngine
@@ -19,9 +21,7 @@ Item {
     }
 
     Item {
-        anchors.fill: parent
-        anchors.topMargin: 40
-        anchors.leftMargin: 40
+        anchors {fill: parent; topMargin: level.innerMargin; leftMargin: level.innerMargin; bottomMargin: level.innerMargin; rightMargin: level.innerMargin}
 
         Row {
             id: topHeader
@@ -59,7 +59,7 @@ Item {
         Grid {
             id: pictureGrid
             columns: 10 //gameEngine.level.columnCount
-            //rows: gameEngine.level.rowCount
+            rows: 10 //gameEngine.level.rowCount
             spacing: 0
             anchors {left: leftHeader.right; top: topHeader.bottom}
 

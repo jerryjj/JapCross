@@ -16,35 +16,10 @@ AppWindow {
         anchors.fill: parent
         source: "images/background.png"
         //fillMode: Image.PreserveAspectCrop
-    }
 
-    Item {
-        id: menuButton
-        width: 60
-        height: 60
-        anchors { top: parent.top; left: parent.left; leftMargin: 5 }
-
-        z: 100
-        opacity: (stateMachine.gameUIVisible ? 1 : 0)
-
-        Image {
-            source: "images/menu.png"
-            anchors.centerIn: parent
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                gameBoard.enabled = false;
-                menuPanel.state = "showMain";
-                stateMachine.gameUIVisible = false;
-            }
-        }
-
-        transitions: Transition {
-            NumberAnimation {
-                properties: "opacity"
-                duration: 400
-            }
+        onHeightChanged: {
+            main.portrait = (width < height);
+            //console.debug("main.qml:Image:onHeightChanged(): [", width, ",", height, "], portrait ==", portrait);
         }
     }
 

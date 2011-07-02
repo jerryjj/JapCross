@@ -10,5 +10,6 @@
         <file>qml/JapCross/Menu/Main.qml</file>
         <file>qml/JapCross/TopColumn.qml</file>
         <file>qml/JapCross/SideRow.qml</file>
+        <file>qml/JapCross/GameHud.qml</file>
     </qresource>
 </RCC>

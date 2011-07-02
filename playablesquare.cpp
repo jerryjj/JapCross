@@ -3,7 +3,8 @@
 PlayableSquare::PlayableSquare(QObject *parent) :
     QObject(parent),
     m_inuse(false),
-    m_active(false)
+    m_active(false),
+    m_required(false)
 {
 }
 

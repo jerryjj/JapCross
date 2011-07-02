@@ -21,16 +21,22 @@ public:
     bool active() const { return m_active; }
     void setActive(bool state) { if(state==m_active) return; m_active = state; emit activeChanged(); }
 
+    Q_PROPERTY(bool required READ required WRITE setRequired NOTIFY requiredChanged)
+    bool required() const { return m_required; }
+    void setRequired(bool state) { if(state==m_required) return; m_required = state; emit requiredChanged(); }
+
 signals:
     void inUseChanged();
     void activeChanged();
+    void requiredChanged();
 
 public slots:
     int getCurrentStatus();
 
 private:    
     bool m_inuse;
-    bool m_active;    
+    bool m_active;
+    bool m_required;
 };
 
 #endif // PLAYABLESQUARE_H

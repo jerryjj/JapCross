@@ -33,52 +33,102 @@ void GameEngine::m_prepareColumns()
     while (it.hasNext())
         required_squares << it.next().toInt();
     qDebug() << required_squares;
-    m_lvl_cols_left = required_squares.count();
-    m_lvl_cols_over = 0;
 
-    m_tbheaders.clear();
-    for (int i=0; i<level_cols; ++i) {
-        HeaderGroup *g = new HeaderGroup;
-        if (required_squares.count() == 20) {
-            if (i == 4 || i == 5) {
-                g->insertItem(2);
-            } else {
-                g->insertItem(1);
-                g->insertItem(1);
-            }
-        } else {
-            g->insertItem(1);
-        }
-        m_tbheaders.insert(i, g);
+    m_playableSquares.clear();
+    for (int i=0; i<level_rows*level_cols; ++i) {
+        PlayableSquare *s = new PlayableSquare;
+        s->setActive(false);
+        s->setInUse(false);
+        if (required_squares.contains(i)) s->setRequired(true);
+        m_playableSquares << s;
+    }
+
+    //Calculate side col requirements
+    int grid_size = level_cols * level_rows;
+    QList<PlayableSquare *> mid;
+    int n;
+
+
+    for (int i=0; i<level_rows; ++i) {
+
     }
 
     m_lrheaders.clear();
-    for (int i=0; i<level_rows; ++i) {
-        HeaderGroup *g = new HeaderGroup;
-        if (required_squares.count() == 20) {
-            if (i == 4 || i == 5) {
-                g->insertItem(2);
-            } else {
-                g->insertItem(1);
-                g->insertItem(1);
+    QList<int> leftReqs;
+    for (int r=0; r<level_rows; r++) {
+        leftReqs.clear();
+
+        int start = r * level_cols;
+        int end = (r+1) * level_cols - 1;
+        if (end > grid_size) end = grid_size - 1;
+        if (start > m_playableSquares.size()) break;
+        mid = m_playableSquares.mid(start, level_cols);
+        for (int i = 0; i < mid.size(); ++i) {
+            if (mid.at(i)->required()) {
+                n = i + 1;
+                if (n < mid.size() && mid.at(n)->required()) {
+                    int t = 1;
+                    while (mid.at(n)->required()) {
+                        t += 1;
+                        n+=1;
+                    }
+                    leftReqs.append(t);
+                    i=n;
+                } else {
+                    leftReqs.append(1);
+                }
             }
-        } else {
-            g->insertItem(1);
         }
-        m_lrheaders.insert(i, g);
+
+        HeaderGroup *g = new HeaderGroup;
+        if (leftReqs.count() > 0) {
+            for (int i = 0; i < leftReqs.size(); ++i) {
+                g->insertItem(leftReqs.at(i));
+            }
+        }
+        m_lrheaders.insert(r, g);
     }
 
-    if (m_playableSquares.size() <= 0) {
-        for (int i=0; i<level_rows*level_cols; ++i) {
-            PlayableSquare *s = new PlayableSquare;
-            m_playableSquares << s;
+    QList<int> topReqs;
+    m_tbheaders.clear();
+    for (int c=0; c<level_cols; c++) {
+        topReqs.clear();
+
+        int end = (grid_size - level_cols) + c;
+
+        int x = c;
+        bool added = false;
+        while (x <= end) {
+            added = false;
+            if (m_playableSquares.at(x)->required()) {
+                n = x + level_cols;
+                if (n < m_playableSquares.size() && m_playableSquares.at(n)->required()) {
+                    int t = 1;
+                    while (m_playableSquares.at(n)->required()) {
+                        t += 1;
+                        n = (n + level_cols);
+                    }
+                    topReqs.append(t);
+                    x=n;
+                } else {
+                    topReqs.append(1);
+                }
+            }
+
+            x += level_cols;
         }
-    } else {
-        for (int i=0; i<level_rows*level_cols; ++i) {
-            m_playableSquares.at(i)->setActive(false);
-            m_playableSquares.at(i)->setInUse(false);
+
+        HeaderGroup *g = new HeaderGroup;
+        if (topReqs.count() > 0) {
+            for (int i = 0; i < topReqs.size(); ++i) {
+                g->insertItem(topReqs.at(i));
+            }
         }
+        m_tbheaders.insert(c, g);
     }
+
+    m_lvl_cols_left = required_squares.count();
+    m_lvl_cols_over = 0;
 
     emit playableSquaresChanged();
     emit tbHeadersChanged();
@@ -121,10 +171,10 @@ void GameEngine::markPlayableSquare(int index)
         }
     }
 
-    qDebug() << "m_lvl_cols_left:" << m_lvl_cols_left;
-    qDebug() << "m_lvl_cols_over:" << m_lvl_cols_over;
+    //qDebug() << "m_lvl_cols_left:" << m_lvl_cols_left;
+    //qDebug() << "m_lvl_cols_over:" << m_lvl_cols_over;
     if (m_lvl_cols_left == 0 && m_lvl_cols_over == 0) {
-        qDebug() << "level finished!";
+        //qDebug() << "level finished!";
         emit levelFinished();
     }
 }

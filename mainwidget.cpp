@@ -8,7 +8,6 @@
 #endif
 
 #include <QUrl>
-#include <QTimer>
 #include <QApplication>
 #include <QDeclarativeEngine>
 
@@ -28,7 +27,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QDeclarativeView(parent)
 {
     // Switch to fullscreen in device
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_MEEGO) || defined(Q_WS_HARMATTAN)
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_SIMULATOR) || defined(Q_WS_MEEGO) || defined(Q_WS_HARMATTAN)
     setWindowState(Qt::WindowFullScreen);
 #endif
 

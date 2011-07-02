@@ -35,11 +35,12 @@ contains(QT, opengl) {
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     gameengine.cpp \
-    playablesquare.cpp \
     statemachine.cpp \
     mainwidget.cpp \
     numbersquare.cpp \
-    headergroup.cpp
+    headergroup.cpp \
+    level.cpp \
+    playablecell.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -61,11 +62,12 @@ OTHER_FILES += \
 
 HEADERS += \
     gameengine.h \
-    playablesquare.h \
     statemachine.h \
     mainwidget.h \
     numbersquare.h \
-    headergroup.h
+    headergroup.h \
+    level.h \
+    playablecell.h
 
 RESOURCES += \
     assets.qrc \

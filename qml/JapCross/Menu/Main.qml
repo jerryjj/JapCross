@@ -5,7 +5,12 @@ Item {
     width: parent.width; height: parent.height
     opacity: 0
 
-    Component.onCompleted: {
+    Connections {
+        target: gameEngine
+
+        onLevelReady: {
+            btnPlay.disabled = false;
+        }
     }
 
     Item {
@@ -43,13 +48,14 @@ Item {
                     disabled: false
                     onClicked: {
                         //startMenu.state = "instructions";
+                        gameEngine.loadLevel(1);
                     }
                 }
 
                 Button {
                     id: btnPlay
                     text: qsTr("Play")
-                    disabled: false
+                    disabled: true
                     onClicked: {
                         //startMenu.state = "levelSelection";
                         startMenu.state = "hideAndLoadLevel";

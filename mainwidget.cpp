@@ -17,7 +17,8 @@
 #include <gameengine.h>
 #include <statemachine.h>
 
-#include <playablesquare.h>
+#include <level.h>
+#include <playablecell.h>
 #include <numbersquare.h>
 #include <headergroup.h>
 
@@ -41,7 +42,8 @@ MainWidget::MainWidget(QWidget *parent) :
 
     setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
-    qmlRegisterType<PlayableSquare>("gameCore", 1, 0, "PlayableSquare");
+    qmlRegisterType<Level>("gameCore", 1, 0, "Level");
+    qmlRegisterType<PlayableCell>("gameCore", 1, 0, "PlayableCell");
     qmlRegisterType<NumberSquare>("gameCore", 1, 0, "NumberSquare");
     qmlRegisterType<HeaderGroup>("gameCore", 1, 0, "HeaderGroup");
 

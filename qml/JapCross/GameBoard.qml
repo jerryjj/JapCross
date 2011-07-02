@@ -24,9 +24,18 @@ Item {
         z: 10
     }
 
+    Connections {
+        target: gameEngine
+
+        onLevelReady: {
+            //boardFlickable.loadLevel();
+            boardLevel.visible = true;
+        }
+    }
+
     Flickable {
         id: boardFlickable
-        //width: parent.width - 150; height:  parent.height
+        //width: parent.width; height: parent.height
         //anchors.verticalCenter: parent.verticalCenter
         anchors.top: main.portrait ? gameHud.bottom : parent.top
         anchors.bottom: parent.bottom
@@ -37,11 +46,18 @@ Item {
         contentHeight: boardLevel.height
         maximumFlickVelocity: 500
         flickDeceleration: 1000
-
         clip: true
 
         Level {
-            id: boardLevel            
+            id: boardLevel
+            visible: false
+        }
+
+        function loadLevel() {
+//            var lvl = Qt.createQmlObject('import QtQuick 1.0; Level { id: boardLevel }', boardFlickable, "boardLevel");
+
+//            var component = Qt.createComponent("Level.qml");
+//            component.createObject(boardFlickable.contentItem);
         }
     }
 

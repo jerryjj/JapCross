@@ -8,7 +8,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            gameEngine.markPlayableSquare(index);
+            gameEngine.markPlayableCell(index);
         }
     }
 

@@ -1,17 +1,17 @@
-#ifndef PLAYABLESQUARE_H
-#define PLAYABLESQUARE_H
+#ifndef PLAYABLECELL_H
+#define PLAYABLECELL_H
 
 #include <QObject>
 
-const int PSQUARE_STATUS_ACTIVE = 1;
-const int PSQUARE_STATUS_MARKED = 0;
-const int PSQUARE_STATUS_NOTINUSE = -1;
+const int PCQUARE_STATUS_ACTIVE = 1;
+const int PCQUARE_STATUS_MARKED = 0;
+const int PCQUARE_STATUS_NOTINUSE = -1;
 
-class PlayableSquare : public QObject
+class PlayableCell : public QObject
 {
     Q_OBJECT
 public:
-    explicit PlayableSquare(QObject *parent = 0);
+    explicit PlayableCell(QObject *parent = 0);
 
     Q_PROPERTY(bool inUse READ inUse WRITE setInUse NOTIFY inUseChanged)
     bool inUse() const { return m_inuse; }
@@ -33,10 +33,11 @@ signals:
 public slots:
     int getCurrentStatus();
 
-private:    
+private:
     bool m_inuse;
     bool m_active;
     bool m_required;
+
 };
 
-#endif // PLAYABLESQUARE_H
+#endif // PLAYABLECELL_H

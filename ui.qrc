@@ -4,12 +4,12 @@
         <file>qml/JapCross/Level.qml</file>
         <file>qml/JapCross/main.qml</file>
         <file>qml/JapCross/NumberColumn.qml</file>
-        <file>qml/JapCross/PlayableSquare.qml</file>
         <file>qml/JapCross/Menu/Button.qml</file>
         <file>qml/JapCross/Menu/Frame.qml</file>
         <file>qml/JapCross/Menu/Main.qml</file>
         <file>qml/JapCross/TopColumn.qml</file>
         <file>qml/JapCross/SideRow.qml</file>
         <file>qml/JapCross/GameHud.qml</file>
+        <file>qml/JapCross/PlayableCell.qml</file>
     </qresource>
 </RCC>

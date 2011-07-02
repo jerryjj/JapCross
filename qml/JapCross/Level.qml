@@ -25,10 +25,11 @@ Item {
 
         Row {
             id: topHeader
-            anchors {left: leftHeader.right; top: parent.top}
+            anchors {left: pictureGrid.left; top: parent.top}
 
             Repeater {
-                model: gameEngine.tbHeaders //gameEngine.level.tbHeaders
+                id: topHeaderRepeater
+                model: gameEngine.level.tbHeaders
                 TopColumn {
                     hpos: "top"
                 }
@@ -37,11 +38,11 @@ Item {
 
         Grid {
             id: leftHeader
-            anchors {left: parent.left; top: topHeader.bottom}
+            anchors {left: parent.left; top: pictureGrid.top}
             columns: 1
 
             Repeater {
-                model: gameEngine.lrHeaders //gameEngine.level.lrHeaders
+                model: gameEngine.level.lrHeaders
                 SideRow {
                     hpos: "left"
                 }
@@ -58,23 +59,23 @@ Item {
 
         Grid {
             id: pictureGrid
-            columns: 10 //gameEngine.level.columnCount
-            rows: 10 //gameEngine.level.rowCount
+            rows: gameEngine.level.rows
+            columns: gameEngine.level.cols
             spacing: 0
             anchors {left: leftHeader.right; top: topHeader.bottom}
 
             Repeater {
-                model: gameEngine.playableSquares //gameEngine.level.playableSquares
-                PlayableSquare {}
+                model: gameEngine.level.playableCells
+                PlayableCell {}
             }
         }
 
         Row {
             id: bottomHeader
-            anchors {left: leftHeader.right; top: pictureGrid.bottom}
+            anchors {left: pictureGrid.left; top: pictureGrid.bottom}
 
             Repeater {
-                model: gameEngine.tbHeaders //gameEngine.level.tbHeaders
+                model: gameEngine.level.tbHeaders
                 TopColumn {
                     hpos: "bottom"
                 }
@@ -83,11 +84,11 @@ Item {
 
         Grid {
             id: rightHeader
-            anchors {left: pictureGrid.right; top: topHeader.bottom}
+            anchors {left: pictureGrid.right; top: pictureGrid.top}
             columns: 1
 
             Repeater {
-                model: gameEngine.lrHeaders //gameEngine.level.lrHeaders
+                model: gameEngine.level.lrHeaders
                 SideRow {
                     hpos: "right"
                 }

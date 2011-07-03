@@ -53,7 +53,7 @@ private:
     void m_cacheLevelPath(int grp, QString path);
     void m_loadLevelByGroup(int grp, int idx, Level &lvl);
     void m_loadLevel(QString path, Level &lvl);
-    void m_readLevelData(QString path, QString &name, int &rows, int &cols);
+    void m_readLevelData(QString path, QString &name, QString &author, int &rows, int &cols);
 
     int m_active_group;
     QString m_active_group_name;

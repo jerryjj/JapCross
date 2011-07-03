@@ -6,6 +6,7 @@ LevelModel::LevelModel(QObject *parent) :
     m_grp_name(""),
     m_lvl(0),
     m_lvl_name(""),
+    m_lvl_author(""),
     m_thumbnail(""),
     m_rows(0),
     m_cols(0),

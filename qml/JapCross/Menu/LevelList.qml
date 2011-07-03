@@ -65,7 +65,7 @@ Item {
                 text: qsTr("Time spent") + ":"
                 font.pointSize: 14
                 font.bold: true
-                color: "#562a7a"
+                color: "#fff"
                 visible: modelData.timespent ? "visible" : ""
             }
 
@@ -75,7 +75,17 @@ Item {
                 text: modelData.timespent
                 font.pointSize: 14
                 font.bold: false
-                color: "#562a7a"
+                color: "#fff"
+            }
+
+            Text {
+                id: lvlAuthor
+                anchors { right: parent.right; rightMargin: 10; bottom: parent.bottom; bottomMargin: 10 }
+                text: qsTr("Author") + ": " + modelData.lvlAuthor
+                font.pointSize: 12
+                font.bold: false
+                color: "#fff"
+                visible: modelData.lvlAuthor ? "visible" : ""
             }
 
             MouseArea {

@@ -133,14 +133,16 @@ void LevelEngine::m_cacheLevelPath(int grp, QString path)
     grpName = grpName.replace("_", " ");
     grpName = grpName.replace(0, 1, grpName.at(0).toUpper());
     QString lvlName;
+    QString lvlAuthor;
     int rows;
     int cols;
-    m_readLevelData(path, lvlName, rows, cols);
+    m_readLevelData(path, lvlName, lvlAuthor, rows, cols);
 
     lm->setGrp(grp);
     lm->setGrpName(grpName);
     lm->setLvl(lvl);
     lm->setLvlName(lvlName);
+    lm->setLvlAuthor(lvlAuthor);
     lm->setRows(rows);
     lm->setCols(cols);
 
@@ -208,7 +210,7 @@ void LevelEngine::m_loadLevel(QString path, Level &lvl)
     m_active_level_name = lvl.name();
 }
 
-void LevelEngine::m_readLevelData(QString path, QString &name, int &rows, int &cols)
+void LevelEngine::m_readLevelData(QString path, QString &name, QString &author, int &rows, int &cols)
 {
     Level lvl;
 
@@ -236,6 +238,7 @@ void LevelEngine::m_readLevelData(QString path, QString &name, int &rows, int &c
     stream >> lvl;
 
     name = lvl.name();
+    author = lvl.author();
     rows = lvl.rows();
     cols = lvl.cols();
 }

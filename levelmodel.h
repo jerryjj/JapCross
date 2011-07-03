@@ -25,6 +25,10 @@ public:
     QString lvlName() const { return m_lvl_name; }
     void setLvlName(QString v) { m_lvl_name = v; emit lvlNameChanged(); }
 
+    Q_PROPERTY(QString lvlAuthor READ lvlAuthor WRITE setLvlAuthor NOTIFY lvlAuthorChanged)
+    QString lvlAuthor() const { return m_lvl_author; }
+    void setLvlAuthor(QString v) { m_lvl_author = v; emit lvlAuthorChanged(); }
+
     Q_PROPERTY(QString thumbnail READ thumbnail WRITE setThumbnail NOTIFY thumbnailChanged)
     QString thumbnail() const { return m_thumbnail; }
     void setThumbnail(QString v) { m_thumbnail = v; emit thumbnailChanged(); }
@@ -54,6 +58,7 @@ signals:
     void grpNameChanged();
     void lvlChanged();
     void lvlNameChanged();
+    void lvlAuthorChanged();
     void thumbnailChanged();
     void rowsChanged();
     void colsChanged();
@@ -67,6 +72,7 @@ private:
     QString m_grp_name;
     int m_lvl;
     QString m_lvl_name;
+    QString m_lvl_author;
     QString m_thumbnail;
     int m_rows;
     int m_cols;

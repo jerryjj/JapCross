@@ -132,12 +132,17 @@ void LevelEngine::m_cacheLevelPath(int grp, QString path)
     QString grpName = m_groups.at(grp);
     grpName = grpName.replace("_", " ");
     grpName = grpName.replace(0, 1, grpName.at(0).toUpper());
-    QString lvlName = m_readLevelName(path);
+    QString lvlName;
+    int rows;
+    int cols;
+    m_readLevelData(path, lvlName, rows, cols);
 
     lm->setGrp(grp);
     lm->setGrpName(grpName);
     lm->setLvl(lvl);
     lm->setLvlName(lvlName);
+    lm->setRows(rows);
+    lm->setCols(cols);
 
     /*
     if (m_storage->hasLevelHighscore(grp, lvl)) {
@@ -203,7 +208,7 @@ void LevelEngine::m_loadLevel(QString path, Level &lvl)
     m_active_level_name = lvl.name();
 }
 
-QString LevelEngine::m_readLevelName(QString path)
+void LevelEngine::m_readLevelData(QString path, QString &name, int &rows, int &cols)
 {
     Level lvl;
 
@@ -215,22 +220,24 @@ QString LevelEngine::m_readLevelName(QString path)
     quint32 chk;
     stream >> chk;
     if (chk != 0xA0B0C0D0)
-        return "";// TODO: Raise exception BAD_FILE_FORMAT
+        return;// TODO: Raise exception BAD_FILE_FORMAT
 
     // Read the version
     qint32 version;
     stream >> version;
 
     if (version < 100)
-        return "";//TODO: Raise exception BAD_FILE_TOO_OLD
+        return;//TODO: Raise exception BAD_FILE_TOO_OLD
     if (version > 100)
-        return "";//TODO: Raise exception BAD_FILE_TOO_NEW
+        return;//TODO: Raise exception BAD_FILE_TOO_NEW
     if (version == 100)
         stream.setVersion(QDataStream::Qt_4_7);
 
     stream >> lvl;
 
-    return lvl.name();
+    name = lvl.name();
+    rows = lvl.rows();
+    cols = lvl.cols();
 }
 
 LevelEngine& levelEngine() {

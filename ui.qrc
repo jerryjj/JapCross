@@ -10,5 +10,6 @@
         <file>qml/JapCross/SideRow.qml</file>
         <file>qml/JapCross/GameHud.qml</file>
         <file>qml/JapCross/PlayableCell.qml</file>
+        <file>qml/JapCross/Menu/LevelList.qml</file>
     </qresource>
 </RCC>

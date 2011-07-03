@@ -4,6 +4,16 @@ Item {
     id: levelList
     width: parent.width; height: parent.height
 
+    function getFormattedTime(pTime)
+    {
+        var minFirstDigits = Math.floor(pTime/600);
+        var secFirstDigits = Math.floor(pTime/10);
+        var formattedTime = minFirstDigits + "" +
+            (Math.floor(pTime/60)-minFirstDigits*10) + ":" +
+            secFirstDigits%6 + "" + (pTime-secFirstDigits*10);
+        return formattedTime;
+    }
+
     Component {
         id: lvlDelegate
 
@@ -63,7 +73,7 @@ Item {
                 id: lblTimeSpent
                 anchors { left: thumbHolder.right; leftMargin: 5; top: lvlName.bottom; topMargin: 5 }
                 text: qsTr("Time spent") + ":"
-                font.pointSize: 14
+                font.pointSize: 13
                 font.bold: true
                 color: "#fff"
                 visible: modelData.timespent ? "visible" : ""
@@ -72,10 +82,11 @@ Item {
             Text {
                 id: lvlTimeSpent
                 anchors { left: lblTimeSpent.right; leftMargin: 10; top: lblTimeSpent.top }
-                text: modelData.timespent
-                font.pointSize: 14
+                text: getFormattedTime(modelData.timespent)
+                font.pointSize: 13
                 font.bold: false
                 color: "#fff"
+                visible: modelData.timespent ? "visible" : ""
             }
 
             Text {

@@ -6,6 +6,7 @@
 #include <QDeclarativeContext>
 
 #include <gameengine.h>
+#include "storage.h"
 
 const QString uiPath = "qrc:/qml/JapCross/";
 
@@ -25,7 +26,7 @@ private:
     QDeclarativeContext *m_context;
     GameEngine m_gameEngine;
 
-    //Storage m_storage;
+    Storage m_storage;
 
     QString m_adjustPath(const QString &path);
 };

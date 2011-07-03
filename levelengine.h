@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "storage.h"
+
 #include "level.h"
 #include "levelmodel.h"
 
@@ -17,22 +19,22 @@ public:
     explicit LevelEngine(QObject *parent = 0);
     virtual ~LevelEngine();
 
-    //void setStorage(Storage *str);
+    void setStorage(Storage *str);
     void setLevelsPath(const QString &path);
 
-    Q_PROPERTY(int activeGroup READ activeGroup);
+    Q_PROPERTY(int activeGroup READ activeGroup)
     int activeGroup() const { return m_active_group; }
 
-    Q_PROPERTY(int activeLevel READ activeLevel);
+    Q_PROPERTY(int activeLevel READ activeLevel)
     int activeLevel() const { return m_active_level; }
 
-    Q_PROPERTY(QString activeGroupName READ activeGroupName);
+    Q_PROPERTY(QString activeGroupName READ activeGroupName)
     QString activeGroupName() const { return m_active_group_name; }
 
-    Q_PROPERTY(QString activeLevelName READ activeLevelName);
+    Q_PROPERTY(QString activeLevelName READ activeLevelName)
     QString activeLevelName() const { return m_active_level_name; }
 
-    Q_PROPERTY(QDeclarativeListProperty<LevelModel> availableLevels READ availableLevels NOTIFY availableLevelsChanged);
+    Q_PROPERTY(QDeclarativeListProperty<LevelModel> availableLevels READ availableLevels NOTIFY availableLevelsChanged)
     QDeclarativeListProperty<LevelModel> availableLevels() { return QDeclarativeListProperty<LevelModel>(this, m_lvl_models); }
 
     bool hasLevel(int grp, int idx);
@@ -46,8 +48,10 @@ signals:
 public slots:
     void collectLevels();
 
+    void updateLevelModelCacheItem(Level* l);
+
 private:
-    //Storage* m_storage;
+    Storage* m_storage;
 
     int m_addGroup(QString grp);
     void m_cacheLevelPath(int grp, QString path);

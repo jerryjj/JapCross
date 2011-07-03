@@ -41,9 +41,9 @@ public:
     int cols() const { return m_cols; }
     void setCols(int v) { m_cols = v; emit colsChanged(); }
 
-    Q_PROPERTY(QString timespent READ timespent WRITE setTimespent NOTIFY timespentChanged)
-    QString timespent() const { return m_timespent; }
-    void setTimespent(QString v) { m_timespent = v; emit timespentChanged(); }
+    Q_PROPERTY(int timespent READ timespent WRITE setTimespent NOTIFY timespentChanged)
+    int timespent() const { return m_timespent; }
+    void setTimespent(int v) { m_timespent = v; emit timespentChanged(); }
 
 //    Q_PROPERTY(bool hasHighscore READ hasHighscore WRITE setHasHighscore NOTIFY hasHighscoreChanged)
 //    bool hasHighscore() const { return m_has_hs; }
@@ -76,7 +76,7 @@ private:
     QString m_thumbnail;
     int m_rows;
     int m_cols;
-    QString m_timespent;
+    int m_timespent;
 
 //    bool m_has_hs;
 //    int m_score;

@@ -4,6 +4,8 @@
 
 Level::Level(QObject *parent) :
     QObject(parent),
+    cols_left(-1),
+    cols_over(-1),
     m_rows(0),
     m_cols(0),
     m_timespent(0)
@@ -22,6 +24,12 @@ void Level::setLevelData(int rows, int cols, QStringList req_cells)
     QStringListIterator it(req_cells);
     while (it.hasNext())
         m_required_cells << it.next().toInt();
+
+    cols_left = -1;
+    cols_over = -1;
+    m_timespent = 0;
+    m_used_cells.clear();
+    m_marked_cells.clear();
 }
 
 void Level::markPlayableCell(int index)
@@ -29,12 +37,17 @@ void Level::markPlayableCell(int index)
     //qDebug() << "Level::markPlayableCell" << index;
     PlayableCell *s = psquare(index);
 
+    QString s_idx = QString("%1").arg(index);
+
     if (!s) return;
 
     if (!s->inUse()) {
         //qDebug() << "set square" << index << "active";
         s->setActive(true);
         s->setInUse(true);
+
+        if (!m_used_cells.contains(s_idx)) m_used_cells.append(s_idx);
+        if (m_marked_cells.contains(s_idx)) m_marked_cells.removeOne(s_idx);
 
         if (m_required_cells.contains(index)) {
             //qDebug() << "found required cell at" << index;
@@ -47,6 +60,9 @@ void Level::markPlayableCell(int index)
             //qDebug() << "set square" << index << "inactive";
             s->setActive(false);
 
+            if (m_used_cells.contains(s_idx)) m_used_cells.removeOne(s_idx);
+            if (!m_marked_cells.contains(s_idx)) m_marked_cells.append(s_idx);
+
             if (m_required_cells.contains(index)) {
                 //qDebug() << "found required cell at" << index;
                 cols_left += 1;
@@ -57,11 +73,19 @@ void Level::markPlayableCell(int index)
             //qDebug() << "set square" << index << "disabled";
             s->setActive(false);
             s->setInUse(false);
+
+            if (m_used_cells.contains(s_idx)) m_used_cells.removeOne(s_idx);
+            if (m_marked_cells.contains(s_idx)) m_marked_cells.removeOne(s_idx);
         }
     }
 
-    //qDebug() << "cols_left:" << cols_left;
-    //qDebug() << "cols_over:" << cols_over;
+    qDebug() << "m_used_cells";
+    qDebug() << m_used_cells;
+    qDebug() << "m_marked_cells";
+    qDebug() << m_marked_cells;
+
+    qDebug() << "cols_left:" << cols_left;
+    qDebug() << "cols_over:" << cols_over;
     if (cols_left == 0 && cols_over == 0) {
         m_timer->stop();
         emit finished();
@@ -74,7 +98,6 @@ bool Level::prepare()
         return false;
     }
 
-    m_timespent = 0;
     m_playable_cells.clear();
     lrheaders.clear();
     tbheaders.clear();
@@ -86,6 +109,21 @@ bool Level::prepare()
         s->setActive(false);
         s->setInUse(false);
         if (m_required_cells.contains(i)) s->setRequired(true);
+
+        if (m_used_cells.size() > 0) {
+            if (m_used_cells.contains(QString("%1").arg(i))) {
+                s->setActive(true);
+                s->setInUse(true);
+            }
+        }
+
+        if (m_marked_cells.size() > 0) {
+            if (m_marked_cells.contains(QString("%1").arg(i))) {
+                s->setInUse(true);
+                s->setActive(false);
+            }
+        }
+
         m_playable_cells << s;
     }
 
@@ -167,14 +205,23 @@ bool Level::prepare()
         tbheaders.insert(c, g);
     }
 
-    cols_left = m_required_cells.count();
-    cols_over = 0;
+    if (cols_left < 0) cols_left = m_required_cells.count();
+    if (cols_over < 0) cols_over = 0;
+
+//    qDebug() << "prepare";
+//    qDebug() << "cols_left:" << cols_left;
+//    qDebug() << "cols_over:" << cols_over;
 
     emit playableCellsChanged();
     emit tbHeadersChanged();
     emit lrHeadersChanged();
 
     emit prepared();
+
+    if (cols_left == 0 && cols_over == 0) {
+        emit finished();
+        return true;
+    }
 
     m_timer->start(1000);
 

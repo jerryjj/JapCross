@@ -2,6 +2,8 @@
 #include "levelengine.h"
 #include "statemachine.h"
 
+#include "dbmodels.h"
+
 #include <QDebug>
 
 GameEngine::GameEngine(QObject *parent) :
@@ -15,11 +17,10 @@ GameEngine::~GameEngine()
 {
 }
 
-/*void GameEngine::setStorage(Storage *str)
+void GameEngine::setStorage(Storage *str)
 {
     m_storage = str;
 }
-*/
 
 void GameEngine::loadLevel(int grp, int idx)
 {
@@ -94,4 +95,25 @@ void GameEngine::markSideColumnSquare(int row, int col)
     if (s->inUse()) {
         s->setMarked(!s->marked());
     }
+}
+
+void GameEngine::saveGameState()
+{
+    qDebug() << "saveGameState";
+
+    Savegame m;
+
+    if (!m_storage->getSavedgame(m_active_level.grp, m_active_level.lvl, &m)) {
+        m_storage->createSavegame(m_active_level.grp, m_active_level.lvl, m_active_level.timespent(), m_active_level.colsLeft(), m_active_level.colsOver(), m_active_level.usedCells(), m_active_level.markedCells());
+    } else {
+        m.timespent = m_active_level.timespent();
+        m.cols_left = m_active_level.colsLeft();
+        m.cols_over = m_active_level.colsOver();
+        m.setUsedCells(m_active_level.usedCells());
+        m.setMarkedCells(m_active_level.markedCells());
+
+        m_storage->updateSavedgame(&m);
+    }
+
+    levelEngine().updateLevelModelCacheItem(&m_active_level);
 }

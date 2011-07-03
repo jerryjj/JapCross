@@ -56,8 +56,10 @@ Item {
         text: qsTr("Continue")
         disabled: false
         onClicked: {
-            stateMachine.gameUIVisible = false;
+            gameEngine.saveGameState();
+            gameBoard.enabled = false;
             menuPanel.state = "levelSelection";
+            stateMachine.gameUIVisible = false;
         }
     }
 

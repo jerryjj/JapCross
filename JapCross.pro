@@ -23,6 +23,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # CONFIG += mobility
 # MOBILITY +=
 
+QT += sql
+
 contains(QT_CONFIG, opengles2)|contains(QT_CONFIG, opengl):DEFINES += OPENGL_ENABLED
 contains(DEFINES, OPENGL_ENABLED):QT += opengl
 
@@ -42,7 +44,9 @@ SOURCES += main.cpp \
     level.cpp \
     playablecell.cpp \
     levelengine.cpp \
-    levelmodel.cpp
+    levelmodel.cpp \
+    dbmodels.cpp \
+    storage.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -60,7 +64,8 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/copyright \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog
+    qtc_packaging/debian_harmattan/changelog \
+    qtc_packaging/debian_harmattan/postinst
 
 HEADERS += \
     gameengine.h \
@@ -71,7 +76,9 @@ HEADERS += \
     level.h \
     playablecell.h \
     levelengine.h \
-    levelmodel.h
+    levelmodel.h \
+    dbmodels.h \
+    storage.h
 
 RESOURCES += \
     assets.qrc \

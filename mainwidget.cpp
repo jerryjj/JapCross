@@ -34,13 +34,12 @@ MainWidget::MainWidget(QWidget *parent) :
     setWindowState(Qt::WindowFullScreen);
 #endif
 
-    /*
     if (m_storage.connect()) {
         //m_storage.uninstall();
         m_storage.initialize();
     }
     m_gameEngine.setStorage(&m_storage);
-    */
+    levelEngine().setStorage(&m_storage);
 
     setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
@@ -90,7 +89,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 MainWidget::~MainWidget()
 {
-    //m_storage.disconnect();
+    m_storage.disconnect();
 }
 
 void MainWidget::exitApplication()

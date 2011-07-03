@@ -44,6 +44,17 @@ public:
 
     Q_PROPERTY(int timespent READ timespent NOTIFY timespentChanged)
     int timespent() const {return m_timespent;}
+    void setTimespent(int v) { m_timespent = v; }
+
+    int colsLeft() const {return cols_left;}
+    void setColsLeft(int v) { cols_left = v; }
+    int colsOver() const {return cols_over;}
+    void setColsOver(int v) { cols_over = v; }
+
+    QStringList usedCells() {return m_used_cells;}
+    void setUsedCells(QStringList v) { m_used_cells = v; }
+    QStringList markedCells() {return m_marked_cells;}
+    void setMarkedCells(QStringList v) { m_marked_cells = v; }
 
 signals:
     void playableCellsChanged();
@@ -68,6 +79,9 @@ public slots:
     void timerUpdated();
 
 public:
+    int grp;
+    int lvl;
+
     QList<HeaderGroup *> tbheaders;
     QList<HeaderGroup *> lrheaders;
     QStringList required_cells_sl;
@@ -84,6 +98,9 @@ private:
 
     lvlReqCells m_required_cells;
     QList<PlayableCell *> m_playable_cells;
+
+    QStringList m_used_cells;
+    QStringList m_marked_cells;
 
     QString m_name;
     QString m_author;

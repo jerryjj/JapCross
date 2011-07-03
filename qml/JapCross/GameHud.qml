@@ -34,8 +34,9 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                gameEngine.saveGameState();
                 gameBoard.enabled = false;
-                menuPanel.state = "showMain";
+                menuPanel.state = "levelSelection";
                 stateMachine.gameUIVisible = false;
             }
         }

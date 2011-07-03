@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include "storage.h"
 #include "level.h"
 #include "numbersquare.h"
 
@@ -13,7 +14,7 @@ public:
     explicit GameEngine(QObject *parent = 0);
     ~GameEngine();
 
-    //void setStorage(Storage *str);
+    void setStorage(Storage *str);
 
     Q_PROPERTY(Level* level READ level NOTIFY levelChanged)
     Level* level() {return &m_active_level;}
@@ -36,6 +37,8 @@ public slots:
     void levelPrepared();
     void levelDone();
 
+    void saveGameState();
+
 private:
     NumberSquare *lrsquare(int row, int col) const {return (row >= 0 && row < m_active_level.lrheaders.count()) ? m_active_level.lrheaders.at(row)->square(col) : 0;}
     NumberSquare *tbsquare(int col, int row) const {return (col >= 0 && col < m_active_level.tbheaders.count()) ? m_active_level.tbheaders.at(col)->square(row) : 0;}
@@ -43,10 +46,7 @@ private:
     Level m_active_level;
     bool m_requested_level_available;
 
-    //Storage* m_storage;
-//    bool m_has_stored_game;
-//    bool m_continue_stored_game;
-
+    Storage* m_storage;
 
 };
 

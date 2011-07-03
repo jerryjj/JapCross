@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
 #else
     Q_UNUSED(dw);
     mw.setGeometry(QRect(0,0,854,480));
+    //mw.setGeometry(QRect(0,0,480,854));
 #endif
 
     //splash.showMessage("All done");

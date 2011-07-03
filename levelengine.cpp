@@ -1,4 +1,5 @@
 #include "levelengine.h"
+#include "dbmodels.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -44,10 +45,10 @@ LevelEngine::~LevelEngine()
     delete m_lep;
 }
 
-//void LevelEngine::setStorage(Storage *str)
-//{
-//    m_storage = str;
-//}
+void LevelEngine::setStorage(Storage *str)
+{
+    m_storage = str;
+}
 
 void LevelEngine::setLevelsPath(const QString &path)
 {
@@ -146,21 +147,23 @@ void LevelEngine::m_cacheLevelPath(int grp, QString path)
     lm->setRows(rows);
     lm->setCols(cols);
 
-    /*
-    if (m_storage->hasLevelHighscore(grp, lvl)) {
-        Highscore hs;
-        bool s = m_storage->getLevelHighscore(grp, lvl, &hs);
-        if (s) {
-            lm->setHasHighscore(true);
-            lm->setScore(hs.score);
-            lm->setPercentage(hs.percentage);
-            //m_storage->updateGameLevelHS(grp, lvl, hs.score, hs.percentage);
-        }
-        lm->setPlayable(true);
+    Savegame m;
+    if (m_storage->getSavedgame(grp, lvl, &m)) {
+        lm->setTimespent(m.timespent);
     }
-    */
 
     m_lvl_models << lm;
+
+    emit availableLevelsChanged();
+}
+
+void LevelEngine::updateLevelModelCacheItem(Level* l)
+{
+    for (int i=0; i<m_lvl_models.size(); i++) {
+        if (m_lvl_models.at(i)->grp() == l->grp && m_lvl_models.at(i)->lvl() == l->lvl) {
+            m_lvl_models.at(i)->setTimespent(l->timespent());
+        }
+    }
 
     emit availableLevelsChanged();
 }
@@ -177,6 +180,15 @@ void LevelEngine::m_loadLevelByGroup(int grp, int idx, Level &lvl)
     QString path = lpl.at(idx);
 
     m_loadLevel(path, lvl);
+
+    Savegame m;
+    if (m_storage->getSavedgame(grp, idx, &m)) {
+        lvl.setTimespent(m.timespent);
+        lvl.setColsLeft(m.cols_left);
+        lvl.setColsOver(m.cols_over);
+        lvl.setUsedCells(m.getUsedCells());
+        lvl.setMarkedCells(m.getMarkedCells());
+    }
 }
 
 void LevelEngine::m_loadLevel(QString path, Level &lvl)
@@ -203,6 +215,9 @@ void LevelEngine::m_loadLevel(QString path, Level &lvl)
         stream.setVersion(QDataStream::Qt_4_7);
 
     stream >> lvl;
+
+    lvl.grp = m_active_group;
+    lvl.lvl = m_active_level;
 
     m_active_group_name = m_groups.at(m_active_group);
     m_active_group_name = m_active_group_name.replace("_", " ");

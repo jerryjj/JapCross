@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>levels/default/1.mnl</file>
+        <file>levels/default/2.mnl</file>
     </qresource>
 </RCC>

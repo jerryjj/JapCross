@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QDataStream>
 #include <QDeclarativeListProperty>
+#include <QTimer>
 
 #include <playablecell.h>
 #include <numbersquare.h>
@@ -27,9 +28,9 @@ public:
     Q_PROPERTY(QDeclarativeListProperty<HeaderGroup> lrHeaders READ lrHeaders NOTIFY lrHeadersChanged)
     QDeclarativeListProperty<HeaderGroup> lrHeaders() {return QDeclarativeListProperty<HeaderGroup>(this, lrheaders);}
 
-    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     QString name() const {return m_name;}
-    void setName(QString v) { m_name = v; }
+    void setName(QString v) { m_name = v; emit nameChanged(); }
 
     Q_PROPERTY(QString author READ author WRITE setAuthor)
     QString author() const {return m_author;}
@@ -41,13 +42,19 @@ public:
     Q_PROPERTY(int cols READ cols NOTIFY colsChanged)
     int cols() const {return m_cols;}
 
+    Q_PROPERTY(int timespent READ timespent NOTIFY timespentChanged)
+    int timespent() const {return m_timespent;}
+
 signals:
     void playableCellsChanged();
     void tbHeadersChanged();
     void lrHeadersChanged();
+    void nameChanged();
 
     void rowsChanged();
     void colsChanged();
+
+    void timespentChanged();
 
     void prepared();
     void finished();
@@ -57,6 +64,8 @@ public slots:
     void setLevelData(int rows, int cols, QStringList req_cells);
 
     bool prepare();
+
+    void timerUpdated();
 
 public:
     QList<HeaderGroup *> tbheaders;
@@ -78,6 +87,9 @@ private:
 
     QString m_name;
     QString m_author;
+
+    int m_timespent;
+    QTimer *m_timer;
 };
 
 QDataStream &operator << (QDataStream &out, const Level &lvl);

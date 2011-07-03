@@ -38,6 +38,7 @@ public slots:
     void levelDone();
 
     void saveGameState();
+    void clearGameState();
 
 private:
     NumberSquare *lrsquare(int row, int col) const {return (row >= 0 && row < m_active_level.lrheaders.count()) ? m_active_level.lrheaders.at(row)->square(col) : 0;}

@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+#mkdir -p ~/.local/share/data/Infigo/MNonograms/
+
+exit 0

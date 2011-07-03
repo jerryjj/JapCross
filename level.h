@@ -46,6 +46,10 @@ public:
     int timespent() const {return m_timespent;}
     void setTimespent(int v) { m_timespent = v; }
 
+    Q_PROPERTY(bool levelFinished READ levelFinished NOTIFY levelFinishedChanged)
+    bool levelFinished() const {return m_finished;}
+    void setLevelFinished(bool v) { m_finished = v; emit levelFinishedChanged(); }
+
     int colsLeft() const {return cols_left;}
     void setColsLeft(int v) { cols_left = v; }
     int colsOver() const {return cols_over;}
@@ -66,6 +70,8 @@ signals:
     void colsChanged();
 
     void timespentChanged();
+
+    void levelFinishedChanged();
 
     void prepared();
     void finished();
@@ -107,6 +113,8 @@ private:
 
     int m_timespent;
     QTimer *m_timer;
+
+    bool m_finished;
 };
 
 QDataStream &operator << (QDataStream &out, const Level &lvl);

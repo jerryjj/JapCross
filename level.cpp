@@ -8,7 +8,8 @@ Level::Level(QObject *parent) :
     cols_over(-1),
     m_rows(0),
     m_cols(0),
-    m_timespent(0)
+    m_timespent(0),
+    m_finished(false)
 {
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timerUpdated()));
@@ -79,14 +80,15 @@ void Level::markPlayableCell(int index)
         }
     }
 
-    qDebug() << "m_used_cells";
-    qDebug() << m_used_cells;
-    qDebug() << "m_marked_cells";
-    qDebug() << m_marked_cells;
+//    qDebug() << "m_used_cells";
+//    qDebug() << m_used_cells;
+//    qDebug() << "m_marked_cells";
+//    qDebug() << m_marked_cells;
 
-    qDebug() << "cols_left:" << cols_left;
-    qDebug() << "cols_over:" << cols_over;
+//    qDebug() << "cols_left:" << cols_left;
+//    qDebug() << "cols_over:" << cols_over;
     if (cols_left == 0 && cols_over == 0) {
+        setLevelFinished(true);
         m_timer->stop();
         emit finished();
     }
@@ -97,6 +99,8 @@ bool Level::prepare()
     if (m_rows == 0 || m_cols == 0 || m_required_cells.size() == 0) {
         return false;
     }
+
+    setLevelFinished(false);
 
     m_playable_cells.clear();
     lrheaders.clear();
@@ -219,6 +223,7 @@ bool Level::prepare()
     emit prepared();
 
     if (cols_left == 0 && cols_over == 0) {
+        setLevelFinished(true);
         emit finished();
         return true;
     }

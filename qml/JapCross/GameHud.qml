@@ -67,6 +67,28 @@ Item {
         text: gameEngine.level.name
     }
 
+    Item {
+        id: clearBtn
+        width: 50; height: 40
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: main.portrait ? (parent.height / 2 - height / 2) : 10
+        anchors.right: parent.right
+        anchors.rightMargin: main.portrait ? 10 : (parent.width / 2 - width / 2)
+
+        visible: gameEngine.level.levelFinished ? "visible" : ""
+
+        Image {
+            source: "images/clear.png"
+            anchors.centerIn: parent
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                gameEngine.clearGameState();
+            }
+        }
+    }
+
     transitions: Transition {
         NumberAnimation {
             properties: "x,y"

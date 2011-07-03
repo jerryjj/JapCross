@@ -99,7 +99,7 @@ void GameEngine::markSideColumnSquare(int row, int col)
 
 void GameEngine::saveGameState()
 {
-    qDebug() << "saveGameState";
+    //qDebug() << "saveGameState";
 
     Savegame m;
 
@@ -116,4 +116,16 @@ void GameEngine::saveGameState()
     }
 
     levelEngine().updateLevelModelCacheItem(&m_active_level);
+}
+
+void GameEngine::clearGameState()
+{
+    qDebug() << "clearGameState";
+
+    Savegame m;
+
+    if (m_storage->getSavedgame(m_active_level.grp, m_active_level.lvl, &m)) {
+        m_storage->deleteSavegame(m_active_level.grp, m_active_level.lvl);
+        loadLevel(m_active_level.grp, m_active_level.lvl);
+    }
 }

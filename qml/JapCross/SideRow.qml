@@ -9,8 +9,8 @@ Item {
     width: (modelData.itemCount() * 25)
     height: 40
 
-    anchors.right: hpos == "left" ? parent.right : undefined
-    anchors.left: hpos == "right" ? parent.left : undefined
+    anchors.right: hpos == "left" ? (parent ? parent.right : undefined) : undefined
+    anchors.left: hpos == "right" ? (parent ? parent.left : undefined) : undefined
 
     Grid {
         rows: 1

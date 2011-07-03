@@ -8,8 +8,8 @@ Column {
 
     width: 40
 
-    anchors.bottom: hpos == "top" ? parent.bottom : undefined
-    anchors.top: hpos == "bottom" ? parent.top : undefined
+    anchors.bottom: hpos == "top" ? (parent ? parent.bottom : undefined) : undefined
+    anchors.top: hpos == "bottom" ? (parent ? parent.top : undefined) : undefined
 
     Grid {
         columns: 1

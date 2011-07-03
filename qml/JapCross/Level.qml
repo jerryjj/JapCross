@@ -14,8 +14,8 @@ Item {
         onLevelLoading: {
             bgRect.opacity = 0;
             topHeader.opacity = 1;
-            bottomHeader.opacity = 1;
             leftHeader.opacity = 1;
+            bottomHeader.opacity = 1;
             rightHeader.opacity = 1;
         }
 
@@ -36,7 +36,6 @@ Item {
             anchors {left: pictureGrid.left; top: parent.top}
 
             Repeater {
-                id: topHeaderRepeater
                 model: gameEngine.level.tbHeaders
                 TopColumn {
                     hpos: "top"

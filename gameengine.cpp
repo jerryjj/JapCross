@@ -120,12 +120,13 @@ void GameEngine::saveGameState()
 
 void GameEngine::clearGameState()
 {
-    qDebug() << "clearGameState";
+    //qDebug() << "clearGameState";
 
     Savegame m;
 
     if (m_storage->getSavedgame(m_active_level.grp, m_active_level.lvl, &m)) {
         m_storage->deleteSavegame(m_active_level.grp, m_active_level.lvl);
-        loadLevel(m_active_level.grp, m_active_level.lvl);
     }
+
+    loadLevel(m_active_level.grp, m_active_level.lvl);
 }

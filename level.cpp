@@ -35,7 +35,7 @@ void Level::setLevelData(int rows, int cols, QStringList req_cells)
 
 void Level::markPlayableCell(int index)
 {
-    //qDebug() << "Level::markPlayableCell" << index;
+//    qDebug() << "Level::markPlayableCell" << index;
     PlayableCell *s = psquare(index);
 
     QString s_idx = QString("%1").arg(index);
@@ -145,9 +145,9 @@ bool Level::prepare()
         for (int i = 0; i < mid.size(); ++i) {
             if (mid.at(i)->required()) {
                 int n = i + 1;
-                if (n < mid.size() && mid.at(n)->required()) {
+                if (n < mid.size() && mid.at(n) && mid.at(n)->required()) {
                     int t = 1;
-                    while (mid.at(n)->required()) {
+                    while (n < mid.size() && mid.at(n) && mid.at(n)->required()) {
                         t += 1;
                         n+=1;
                     }
@@ -182,9 +182,9 @@ bool Level::prepare()
             added = false;
             if (m_playable_cells.at(x)->required()) {
                 int n = x + m_cols;
-                if (n < m_playable_cells.size() && m_playable_cells.at(n)->required()) {
+                if (n < m_playable_cells.size() && m_playable_cells.at(n) && m_playable_cells.at(n)->required()) {
                     int t = 1;
-                    while (m_playable_cells.at(n)->required()) {
+                    while (n < m_playable_cells.size() && m_playable_cells.at(n) && m_playable_cells.at(n)->required()) {
                         t += 1;
                         n = (n + m_cols);
                     }

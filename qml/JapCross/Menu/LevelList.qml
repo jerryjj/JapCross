@@ -18,11 +18,9 @@ Item {
         id: lvlDelegate
 
         Item {
-            width: levelList.width;
-            height: 70
+            width: levelList.width; height: 85
 
             Rectangle {
-                //width: parent.width; height: 35
                 anchors.fill: parent
                 anchors.verticalCenter: parent.verticalCenter
                 radius: 4
@@ -71,7 +69,7 @@ Item {
 
             Text {
                 id: lblTimeSpent
-                anchors { left: thumbHolder.right; leftMargin: 5; top: lvlName.bottom; topMargin: 5 }
+                anchors { left: thumbHolder.right; leftMargin: 5; top: lvlName.bottom; topMargin: 3 }
                 text: qsTr("Time spent") + ":"
                 font.pointSize: 13
                 font.bold: true
@@ -91,7 +89,7 @@ Item {
 
             Text {
                 id: lvlAuthor
-                anchors { right: parent.right; rightMargin: 10; bottom: parent.bottom; bottomMargin: 10 }
+                anchors { right: parent.right; rightMargin: 10; bottom: parent.bottom; bottomMargin: 5 }
                 text: qsTr("Author") + ": " + modelData.lvlAuthor
                 font.pointSize: 12
                 font.bold: false
@@ -114,6 +112,7 @@ Item {
     ListView {
         id: lv
         anchors {fill: parent}
+        spacing: 5
 
         model: levelEngine.availableLevels
         delegate: lvlDelegate

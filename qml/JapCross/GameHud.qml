@@ -75,7 +75,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: main.portrait ? 10 : (parent.width / 2 - width / 2)
 
-        visible: gameEngine.level.levelFinished ? "visible" : ""
+        //visible: gameEngine.level.levelFinished ? "visible" : ""
 
         Image {
             source: "images/clear.png"
@@ -84,7 +84,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                gameEngine.clearGameState();
+                clearLevelConfirm.opacity = 1;
             }
         }
     }

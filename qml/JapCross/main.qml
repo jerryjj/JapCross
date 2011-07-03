@@ -97,6 +97,72 @@ AppWindow {
     }
 
     Item {
+        id: clearLevelConfirm
+        width: portrait ? parent.width - 50 : parent.width - 200
+        height: 130
+        anchors.centerIn: parent
+        z: 100
+        opacity: 0
+
+        Rectangle {
+            color: "#fff"
+            border.width: 1
+            border.color: "#abacad"
+            anchors.fill: parent
+        }
+
+        Text {
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width / 2 - width / 2
+            id: clearTxt
+            font.family: "nokia"
+            font.pointSize: 26
+            font.bold: true
+            smooth: true
+            color: "#562a7a"
+            text: qsTr("Really clear the level?")
+        }
+
+        Row {
+            width: parent.width - 100
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width / 2 - width / 2
+            anchors.top: clearTxt.bottom
+            anchors.topMargin: 10
+            spacing: 10
+
+            Menu.Button {
+                id: btnClearLevelConfirm
+                width: parent.width / 2 - 5
+                text: qsTr("Yes")
+                disabled: false
+                onClicked: {
+                    clearLevelConfirm.opacity = 0;
+                    gameEngine.clearGameState();
+                }
+            }
+            Menu.Button {
+                id: btnClearLevelCancel
+                width: parent.width / 2 - 5
+                text: qsTr("Cancel")
+                disabled: false
+                onClicked: {
+                    clearLevelConfirm.opacity = 0;
+                }
+            }
+        }
+
+        transitions: Transition {
+            NumberAnimation {
+                properties: "opacity"
+                duration: 300
+            }
+        }
+    }
+
+    Item {
         id: gameUI
         anchors.fill: parent
         opacity: 0

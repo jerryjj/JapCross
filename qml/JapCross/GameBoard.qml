@@ -5,8 +5,6 @@ Item {
     anchors.fill: parent
 
     opacity: 0
-
-    //scale: gameEngine.zoomLevel
     scale: 1.0
 
 
@@ -29,7 +27,6 @@ Item {
 
         onLevelReady: {
             //boardFlickable.loadLevel();
-            boardLevel.visible = true;
         }
     }
 
@@ -50,7 +47,6 @@ Item {
 
         Level {
             id: boardLevel
-            visible: false
         }
 
         function loadLevel() {

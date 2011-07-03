@@ -5,14 +5,6 @@ Item {
     width: parent.width; height: parent.height
     opacity: 0
 
-    Connections {
-        target: gameEngine
-
-        onLevelReady: {
-            btnPlay.disabled = false;
-        }
-    }
-
     Item {
         id: logoholder
         width: 610; height: 116
@@ -47,20 +39,24 @@ Item {
                     text: qsTr("Instructions")
                     disabled: false
                     onClicked: {
-                        //startMenu.state = "instructions";
-                        gameEngine.loadLevel(1);
+                        //startMenu.state = "instructions";                        
                     }
                 }
 
                 Button {
                     id: btnPlay
                     text: qsTr("Play")
-                    disabled: true
+                    disabled: false
                     onClicked: {
                         //startMenu.state = "levelSelection";
+
+                        //startMenu.state = "hideAndLoadLevel";
+                        //gameBoard.enabled = true;
+                        //stateMachine.gameUIVisible = true;
+
                         startMenu.state = "hideAndLoadLevel";
-                        gameBoard.enabled = true;
-                        stateMachine.gameUIVisible = true;
+                        gameBoard.enabled = false;
+                        gameEngine.loadLevel(0, 0);
                     }
                 }
             }

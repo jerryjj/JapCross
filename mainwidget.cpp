@@ -15,9 +15,11 @@
 #include <QtCore/QFileInfo>
 
 #include <gameengine.h>
+#include <levelengine.h>
 #include <statemachine.h>
 
 #include <level.h>
+#include <levelmodel.h>
 #include <playablecell.h>
 #include <numbersquare.h>
 #include <headergroup.h>
@@ -43,6 +45,7 @@ MainWidget::MainWidget(QWidget *parent) :
     setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
     qmlRegisterType<Level>("gameCore", 1, 0, "Level");
+    qmlRegisterType<LevelModel>("gameCore", 1, 0, "LevelModel");
     qmlRegisterType<PlayableCell>("gameCore", 1, 0, "PlayableCell");
     qmlRegisterType<NumberSquare>("gameCore", 1, 0, "NumberSquare");
     qmlRegisterType<HeaderGroup>("gameCore", 1, 0, "HeaderGroup");
@@ -51,6 +54,7 @@ MainWidget::MainWidget(QWidget *parent) :
     m_context = rootContext();
     m_context->setContextProperty("mw", this);
     m_context->setContextProperty("gameEngine", &m_gameEngine);
+    m_context->setContextProperty("levelEngine", &levelEngine());
     m_context->setContextProperty("stateMachine", &stateMachine());
 
     // Set view optimizations not already done for QDeclarativeView
@@ -78,6 +82,8 @@ MainWidget::MainWidget(QWidget *parent) :
 #endif
 
     setSource(QUrl(uiPath + "main.qml"));
+
+    stateMachine().setLoadingLevel(false);
 
     connect(engine(), SIGNAL(quit()), SLOT(close()));
 }

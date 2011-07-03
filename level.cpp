@@ -1,6 +1,5 @@
 #include "level.h"
 
-#include <QStringList>
 #include <QStringListIterator>
 
 Level::Level(QObject *parent) :
@@ -10,17 +9,16 @@ Level::Level(QObject *parent) :
 {
 }
 
-void Level::setLevelData(int rows, int cols, QString req_cells)
+void Level::setLevelData(int rows, int cols, QStringList req_cells)
 {
     m_rows = rows;
     m_cols = cols;
 
+    required_cells_sl = req_cells;
     m_required_cells.clear();
-    QStringListIterator it(req_cells.split(","));
+    QStringListIterator it(req_cells);
     while (it.hasNext())
         m_required_cells << it.next().toInt();
-
-    m_prepareCells();
 }
 
 void Level::markPlayableCell(int index)
@@ -66,8 +64,12 @@ void Level::markPlayableCell(int index)
     }
 }
 
-void Level::m_prepareCells()
+bool Level::prepare()
 {
+    if (m_rows == 0 || m_cols == 0 || m_required_cells.size() == 0) {
+        return false;
+    }
+
     m_playable_cells.clear();
     lrheaders.clear();
     tbheaders.clear();
@@ -168,4 +170,29 @@ void Level::m_prepareCells()
     emit lrHeadersChanged();
 
     emit prepared();
+
+    return true;
+}
+
+QDataStream &operator << (QDataStream &out, const Level &lvl)
+{
+    out << lvl.name() << lvl.author() << lvl.rows() << lvl.cols() << lvl.required_cells_sl;
+    return out;
+}
+
+QDataStream &operator >> (QDataStream &in, Level &lvl)
+{
+    QString name;
+    QString author;
+    int rows;
+    int cols;
+    QStringList req_cells;
+
+    in >> name >> author >> rows >> cols >> req_cells;
+
+    lvl.setName(name);
+    lvl.setAuthor(author);
+    lvl.setLevelData(rows, cols, req_cells);
+
+    return in;
 }

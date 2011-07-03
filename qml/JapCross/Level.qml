@@ -11,6 +11,14 @@ Item {
     Connections {
         target: gameEngine
 
+        onLevelLoading: {
+            bgRect.opacity = 0;
+            topHeader.opacity = 1;
+            bottomHeader.opacity = 1;
+            leftHeader.opacity = 1;
+            rightHeader.opacity = 1;
+        }
+
         onLevelFinished: {
             bgRect.opacity = 1;
             topHeader.opacity = 0.1;

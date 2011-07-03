@@ -2,11 +2,15 @@
 #define LEVEL_H
 
 #include <QObject>
+#include <QStringList>
+#include <QDataStream>
 #include <QDeclarativeListProperty>
 
 #include <playablecell.h>
 #include <numbersquare.h>
 #include <headergroup.h>
+
+typedef QList<int> lvlReqCells;
 
 class Level : public QObject
 {
@@ -23,11 +27,19 @@ public:
     Q_PROPERTY(QDeclarativeListProperty<HeaderGroup> lrHeaders READ lrHeaders NOTIFY lrHeadersChanged)
     QDeclarativeListProperty<HeaderGroup> lrHeaders() {return QDeclarativeListProperty<HeaderGroup>(this, lrheaders);}
 
+    Q_PROPERTY(QString name READ name WRITE setName)
+    QString name() const {return m_name;}
+    void setName(QString v) { m_name = v; }
+
+    Q_PROPERTY(QString author READ author WRITE setAuthor)
+    QString author() const {return m_author;}
+    void setAuthor(QString v) { m_author = v; }
+
     Q_PROPERTY(int rows READ rows NOTIFY rowsChanged)
-    int rows() {return m_rows;}
+    int rows() const {return m_rows;}
 
     Q_PROPERTY(int cols READ cols NOTIFY colsChanged)
-    int cols() {return m_cols;}
+    int cols() const {return m_cols;}
 
 signals:
     void playableCellsChanged();
@@ -42,11 +54,14 @@ signals:
 
 public slots:
     void markPlayableCell(int index);
-    void setLevelData(int rows, int cols, QString req_cells);
+    void setLevelData(int rows, int cols, QStringList req_cells);
+
+    bool prepare();
 
 public:
     QList<HeaderGroup *> tbheaders;
     QList<HeaderGroup *> lrheaders;
+    QStringList required_cells_sl;
 
 protected:
     int cols_left;
@@ -58,13 +73,14 @@ private:
     int m_rows;
     int m_cols;
 
-    QList<int> m_required_cells;
+    lvlReqCells m_required_cells;
     QList<PlayableCell *> m_playable_cells;
 
-    QString m_picture_cells;
-
-    void m_prepareCells();
-
+    QString m_name;
+    QString m_author;
 };
+
+QDataStream &operator << (QDataStream &out, const Level &lvl);
+QDataStream &operator >> (QDataStream &in, Level &lvl);
 
 #endif // LEVEL_H

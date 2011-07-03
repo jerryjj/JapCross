@@ -1,14 +1,14 @@
 #include "gameengine.h"
+#include "levelengine.h"
+#include "statemachine.h"
 
 #include <QDebug>
 
 GameEngine::GameEngine(QObject *parent) :
     QObject(parent)
 {
-    m_active_level = new Level;
-
-    connect(m_active_level, SIGNAL(prepared()), this, SLOT(levelPrepared()));
-    connect(m_active_level, SIGNAL(finished()), this, SLOT(levelDone()));
+    connect(&m_active_level, SIGNAL(prepared()), this, SLOT(levelPrepared()));
+    connect(&m_active_level, SIGNAL(finished()), this, SLOT(levelDone()));
 }
 
 GameEngine::~GameEngine()
@@ -21,19 +21,41 @@ GameEngine::~GameEngine()
 }
 */
 
-void GameEngine::loadLevel(int idx)
+void GameEngine::loadLevel(int grp, int idx)
 {
-    qDebug() << "loadLevel" << idx;
+    qDebug() << "loadLevel" << grp << "," << idx;
 
-    // Dummy level loading
-    m_active_level->setLevelData(10, 10, QString("0,9,11,18,22,27,33,36,44,45,55,54,66,63,77,72,88,81,99,90")); // "0,11,22,33,44,55,66,77,88,99"
+    m_requested_level_available = false;
+    stateMachine().setGameUIVisible(false);
+    stateMachine().setGameInProgress(false);
+
+    if (levelEngine().hasLevel(grp, idx)) {
+        m_requested_level_available = true;
+        //m_has_stored_game = false;
+        stateMachine().setLoadingLevel(true);
+        levelEngine().loadLevelByGroup(grp, idx);
+    }
+}
+
+void GameEngine::startLevelLoad()
+{
+    emit levelLoading();
+
+    if (m_requested_level_available) {
+        levelEngine().startLoad(m_active_level);
+        m_active_level.prepare();
+    }
 }
 
 void GameEngine::levelPrepared()
 {
     qDebug() << "level prepared";
+
     emit levelChanged();
     emit levelReady();
+
+    stateMachine().setLoadingLevel(false);
+    stateMachine().setGameUIVisible(true);
 }
 
 void GameEngine::levelDone()
@@ -47,7 +69,7 @@ void GameEngine::markPlayableCell(int index)
     //TODO: do point collection here
     //qDebug() << "GameEngine::markPlayableSquare" << index;
 
-    m_active_level->markPlayableCell(index);
+    m_active_level.markPlayableCell(index);
 }
 
 void GameEngine::markTopColumnSquare(int col, int row)

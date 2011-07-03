@@ -40,7 +40,9 @@ SOURCES += main.cpp \
     numbersquare.cpp \
     headergroup.cpp \
     level.cpp \
-    playablecell.cpp
+    playablecell.cpp \
+    levelengine.cpp \
+    levelmodel.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -67,11 +69,14 @@ HEADERS += \
     numbersquare.h \
     headergroup.h \
     level.h \
-    playablecell.h
+    playablecell.h \
+    levelengine.h \
+    levelmodel.h
 
 RESOURCES += \
     assets.qrc \
-    ui.qrc
+    ui.qrc \
+    levels.qrc
 
 maemo5 {
     icon.files = icons/icon-64x64.png

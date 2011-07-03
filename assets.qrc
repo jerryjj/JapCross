@@ -6,5 +6,6 @@
         <file>qml/JapCross/images/background.png</file>
         <file>qml/JapCross/images/logo.png</file>
         <file>qml/JapCross/images/menu.png</file>
+        <file>qml/JapCross/images/logo-portrait.png</file>
     </qresource>
 </RCC>

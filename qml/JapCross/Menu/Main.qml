@@ -7,19 +7,21 @@ Item {
 
     Item {
         id: logoholder
-        width: 610; height: 116
+        width: main.portrait ? 400 : 610
+        height: main.portrait ? 75 : 116
         anchors { top: parent.top; topMargin: 50; horizontalCenter: parent.horizontalCenter }
 
         Image {
             id: logo
-            source: "../images/logo.png"
+            source: main.portrait ? "../images/logo-portrait.png" : "../images/logo.png"
         }
     }
 
-    Frame {
+    Item {
         id: startMenuFrame
         width: parent.width - 100
         height: (2*60) + 50
+
         anchors {horizontalCenter: parent.horizontalCenter; top: logoholder.bottom; topMargin: 20}
 
         opacity: 0
@@ -39,7 +41,7 @@ Item {
                     text: qsTr("Instructions")
                     disabled: false
                     onClicked: {
-                        //startMenu.state = "instructions";                        
+                        //startMenu.state = "instructions";
                     }
                 }
 

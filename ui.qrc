@@ -5,7 +5,6 @@
         <file>qml/JapCross/main.qml</file>
         <file>qml/JapCross/NumberColumn.qml</file>
         <file>qml/JapCross/Menu/Button.qml</file>
-        <file>qml/JapCross/Menu/Frame.qml</file>
         <file>qml/JapCross/Menu/Main.qml</file>
         <file>qml/JapCross/TopColumn.qml</file>
         <file>qml/JapCross/SideRow.qml</file>

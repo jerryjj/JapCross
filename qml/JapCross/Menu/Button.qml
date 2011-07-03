@@ -3,7 +3,7 @@ import QtQuick 1.0
 Item {
     id: container
 
-    property string text
+    property string text: ""
     property bool disabled: false
     signal clicked
 
@@ -12,45 +12,80 @@ Item {
     height: 60
 
     Rectangle {
-        id: normal
-        anchors.fill: parent
-        border.color: "#999999"
+        id: numberHolder
+        width: 60; height: parent.height
+        anchors.left: parent.left
+        border.color: "#abacad"
         border.width: 1
-        radius: 10
-        smooth: true
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#666666" }
-            GradientStop { position: 1.0; color: "#222222" }
+
+        color: "#fff"
+
+        Text {
+            font.family: "nokia"
+            font.pointSize: 26
+            smooth: true
+            color: {
+                if (container.disabled)
+                    "#ccc"
+                else
+                    "#333"
+            }
+            anchors.centerIn: parent
+            text: container.text.length
+        }
+    }
+
+    Rectangle {
+        id: normal
+        width: parent.width - numberHolder.width; height: parent.height
+        x: numberHolder.x + numberHolder.width + 1
+        border.color: "#abacad"
+        border.width: 1
+
+        color: "#fff"
+
+        Text {
+            font.family: "nokia"
+            font.pointSize: 26
+            font.bold: true
+            smooth: true
+            color: {
+                if (container.disabled)
+                    "#ccc"
+                else
+                    "#562a7a"
+            }
+            anchors.centerIn: parent
+            text: container.text
         }
     }
 
     Rectangle {
         id: pressed
-        anchors.fill: parent
-        border.color: "#999999"
+        width: parent.width - numberHolder.width; height: parent.height
+        x: numberHolder.x + numberHolder.width + 1
+        border.color: "#abacad"
         border.width: 1
-        radius: 10
-        smooth: true
         opacity: 0
+
+        color: "#fff"
+
+        Text {
+            font.family: "nokia"
+            font.pointSize: 26
+            font.bold: true
+            smooth: true
+            color: "#fff"
+            anchors.centerIn: parent
+            text: container.text
+        }
+
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "#999999" }
-            GradientStop { position: 1.0; color: "#333333" }
+            GradientStop { position: 0.0; color: "#fff" }
+            GradientStop { position: 1.0; color: "#562a7a" }
         }
     }
 
-    Rectangle {
-        id: disabled
-        anchors.fill: parent
-        border.color: "#999999"
-        border.width: 1
-        radius: 10
-        smooth: true
-        opacity: 0
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#dddddd" }
-            GradientStop { position: 1.0; color: "#999999" }
-        }
-    }
 
     MouseArea {
         anchors.fill: parent
@@ -68,33 +103,13 @@ Item {
         }
     }
 
-    Text {
-        font.family: "Helvetica"
-        font.pointSize: 14
-        smooth: true
-        color: {
-            if (container.disabled)
-                "#dddddd"
-            else
-                "#ffffff"
-        }
-        anchors.centerIn: parent
-        text: container.text
-    }
-
     states: [
     State {
         name: "Pressed"
         PropertyChanges { target: pressed; opacity: 1 }
-    },
-    State {
-        name: "Disabled"
-        when: container.disabled == true
-        PropertyChanges { target: disabled; opacity: 1 }
     }
     ]
     transitions: Transition {
         NumberAnimation { properties: "opacity"; duration:100 }
     }
-
 }

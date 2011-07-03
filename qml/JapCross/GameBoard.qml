@@ -1,19 +1,13 @@
 import QtQuick 1.0
 
+import "Menu" 1.0 as Menu
+
 Item {
     id: gameBoard
     anchors.fill: parent
 
     opacity: 0
     scale: 1.0
-
-
-    /*Image {
-        id: gbBackground
-        anchors.fill: parent
-        source: "images/background.png"
-        //fillMode: Image.PreserveAspectCrop
-    }*/
 
     GameHud {
         id: gameHud
@@ -26,7 +20,10 @@ Item {
         target: gameEngine
 
         onLevelReady: {
-            //boardFlickable.loadLevel();
+        }
+
+        onLevelFinished: {
+            continueBtn.opacity = 1;
         }
     }
 
@@ -48,12 +45,19 @@ Item {
         Level {
             id: boardLevel
         }
+    }
 
-        function loadLevel() {
-//            var lvl = Qt.createQmlObject('import QtQuick 1.0; Level { id: boardLevel }', boardFlickable, "boardLevel");
+    Menu.Button {
+        id: continueBtn
+        anchors {bottom: parent.bottom; bottomMargin: 10; horizontalCenter: parent.horizontalCenter}
+        width: parent.width / 2
+        opacity: 0
 
-//            var component = Qt.createComponent("Level.qml");
-//            component.createObject(boardFlickable.contentItem);
+        text: qsTr("Continue")
+        disabled: false
+        onClicked: {
+            stateMachine.gameUIVisible = false;
+            menuPanel.state = "levelSelection";
         }
     }
 
@@ -64,6 +68,10 @@ Item {
             PropertyChanges {
                 target: gameBoard
                 opacity: 1
+            }
+            PropertyChanges {
+                target: continueBtn
+                opacity: 0
             }
         }
     ]

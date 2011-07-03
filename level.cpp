@@ -5,8 +5,11 @@
 Level::Level(QObject *parent) :
     QObject(parent),
     m_rows(0),
-    m_cols(0)
+    m_cols(0),
+    m_timespent(0)
 {
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(timerUpdated()));
 }
 
 void Level::setLevelData(int rows, int cols, QStringList req_cells)
@@ -60,6 +63,7 @@ void Level::markPlayableCell(int index)
     //qDebug() << "cols_left:" << cols_left;
     //qDebug() << "cols_over:" << cols_over;
     if (cols_left == 0 && cols_over == 0) {
+        m_timer->stop();
         emit finished();
     }
 }
@@ -70,6 +74,7 @@ bool Level::prepare()
         return false;
     }
 
+    m_timespent = 0;
     m_playable_cells.clear();
     lrheaders.clear();
     tbheaders.clear();
@@ -171,7 +176,15 @@ bool Level::prepare()
 
     emit prepared();
 
+    m_timer->start(1000);
+
     return true;
+}
+
+void Level::timerUpdated()
+{
+    m_timespent += 1;
+    emit timespentChanged();
 }
 
 QDataStream &operator << (QDataStream &out, const Level &lvl)

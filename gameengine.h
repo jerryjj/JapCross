@@ -40,6 +40,9 @@ public slots:
     void saveGameState();
     void clearGameState();
 
+    void pauseGame();
+    void continueGame();
+
 private:
     NumberSquare *lrsquare(int row, int col) const {return (row >= 0 && row < m_active_level.lrheaders.count()) ? m_active_level.lrheaders.at(row)->square(col) : 0;}
     NumberSquare *tbsquare(int col, int row) const {return (col >= 0 && col < m_active_level.tbheaders.count()) ? m_active_level.tbheaders.at(col)->square(row) : 0;}

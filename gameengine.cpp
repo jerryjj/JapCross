@@ -97,9 +97,34 @@ void GameEngine::markSideColumnSquare(int row, int col)
     }
 }
 
+void GameEngine::pauseGame()
+{
+    if (!stateMachine().gameUIVisible()) {
+        return;
+    }
+
+    if (! m_active_level.levelFinished()) {
+        m_active_level.pauseLevel();
+        saveGameState();
+    }
+}
+
+void GameEngine::continueGame()
+{
+    if (!stateMachine().gameUIVisible()) {
+        return;
+    }
+
+    if (! m_active_level.levelFinished()) {
+        m_active_level.continueLevel();
+    }
+}
+
 void GameEngine::saveGameState()
 {
-    //qDebug() << "saveGameState";
+    if (!stateMachine().gameUIVisible()) {
+        return;
+    }
 
     Savegame m;
 

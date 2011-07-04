@@ -44,7 +44,7 @@ Item {
                     text: qsTr("Instructions")
                     disabled: false
                     onClicked: {
-                        //startMenu.state = "instructions";
+                        startMenu.state = "instructions";
                     }
                 }
 
@@ -54,14 +54,6 @@ Item {
                     disabled: false
                     onClicked: {
                         startMenu.state = "levelSelection";
-
-                        //startMenu.state = "hideAndLoadLevel";
-                        //gameBoard.enabled = true;
-                        //stateMachine.gameUIVisible = true;
-
-//                        startMenu.state = "hideAndLoadLevel";
-//                        gameBoard.enabled = false;
-//                        gameEngine.loadLevel(0, 0);
                     }
                 }
             }
@@ -100,6 +92,58 @@ Item {
         }
     }
 
+    Item {
+        id: instructionsFrame
+        width: parent.width - 100; height: parent.height - 50
+        anchors.verticalCenter: parent.verticalCenter
+        x: parent.width + 100
+
+        Row {
+            anchors.fill: parent
+            anchors.margins: 10
+            spacing: 10
+
+            Column {
+                width: parent.width; height: parent.height
+                spacing: 10
+
+                Rectangle {
+                    color: "#fff"
+                    width: parent.width; height: parent.height - btnInstructionsBackToMenu.height
+                    radius: 8
+
+                    Flickable {
+                        id: instructionsFlickable
+                        width: parent.width - 10; height: parent.height - 10
+                        anchors.centerIn: parent
+                        maximumFlickVelocity: 500
+                        flickDeceleration: 1000
+                        contentHeight: instrTxt.height
+                        clip: true
+
+                        Text {
+                            id: instrTxt
+                            width: parent.width
+                            color: "#000"
+                            font.pointSize: 18
+                            text: qsTr("game_instructions")
+                            wrapMode: Text.WordWrap
+                        }
+                    }
+                }
+
+                Button {
+                    id: btnInstructionsBackToMenu
+                    text: qsTr("Back to menu")
+                    disabled: false
+                    onClicked: {
+                        startMenu.state = "showMain";
+                    }
+                }
+            }
+        }
+    }
+
     states: [
         State {
             name: "showMain"
@@ -111,6 +155,22 @@ Item {
                 target: startMenuFrame
                 opacity: 1
                 scale: 1.0
+            }
+        },
+        State {
+            name: "instructions"
+            extend: "showMain"
+            PropertyChanges {
+                target: logoholder
+                x: -(startMenu.width + 50)
+            }
+            PropertyChanges {
+                target: startMenuFrame
+                x: -(startMenu.width + 50)
+            }
+            PropertyChanges {
+                target: instructionsFrame
+                x: 50
             }
         },
         State {

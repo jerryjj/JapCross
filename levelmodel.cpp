@@ -10,9 +10,8 @@ LevelModel::LevelModel(QObject *parent) :
     m_thumbnail(""),
     m_rows(0),
     m_cols(0),
-    m_timespent(0)
-
-//    m_has_hs(false),
-//    m_score(0)
+    m_timespent(0),
+    m_has_hs(false),
+    m_fastest_time(0)
 {
 }

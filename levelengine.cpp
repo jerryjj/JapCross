@@ -6,6 +6,10 @@
 #include <QtCore/QFileInfo>
 #include <QDirIterator>
 
+#if defined(Q_WS_HARMATTAN)
+#include <QDesktopServices>
+#endif
+
 class LevelEnginePrivate
 {
     QString levelsPath;
@@ -15,6 +19,16 @@ class LevelEnginePrivate
 
 QString LevelEnginePrivate::adjustPath(const QString &path)
 {
+#if defined(Q_WS_HARMATTAN)
+    QString p = QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QLatin1Char('/') + path;
+    p = QDir::toNativeSeparators(p.replace("//", "/"));
+
+    if (!QFileInfo(p).exists()) {
+        QDir().mkdir(p);
+    }
+
+    return p;
+#else
 #if defined(Q_OS_UNIX) || defined(Q_OS_MAC)
     if (!QDir::isAbsolutePath(path))
         return QCoreApplication::applicationDirPath()
@@ -28,6 +42,7 @@ QString LevelEnginePrivate::adjustPath(const QString &path)
         return pathInShareDir;
 #endif
     return path;
+#endif
 }
 
 LevelEngine::LevelEngine(QObject *parent) :
@@ -152,6 +167,12 @@ void LevelEngine::m_cacheLevelPath(int grp, QString path)
         lm->setTimespent(m.timespent);
     }
 
+    Highscore hm;
+    if (m_storage->getHighscore(grp, lvl, &hm)) {
+        lm->setHasHighscore(true);
+        lm->setFastestTime(hm.timespent);
+    }
+
     m_lvl_models << lm;
 
     emit availableLevelsChanged();
@@ -159,8 +180,14 @@ void LevelEngine::m_cacheLevelPath(int grp, QString path)
 
 void LevelEngine::updateLevelModelCacheItem(Level* l)
 {
+    Highscore hm;
+
     for (int i=0; i<m_lvl_models.size(); i++) {
         if (m_lvl_models.at(i)->grp() == l->grp && m_lvl_models.at(i)->lvl() == l->lvl) {
+            if (m_storage->getHighscore(l->grp, l->lvl, &hm)) {
+                m_lvl_models.at(i)->setHasHighscore(true);
+                m_lvl_models.at(i)->setFastestTime(hm.timespent);
+            }
             m_lvl_models.at(i)->setTimespent(l->timespent());
         }
     }

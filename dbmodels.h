@@ -28,4 +28,16 @@ public:
     QStringList getMarkedCells();
 };
 
+class Highscore // Highscore model
+{
+public:
+    Highscore();
+
+    int created;
+
+    int grp;
+    int lvl;
+    int timespent;
+};
+
 #endif // DBMODELS_H

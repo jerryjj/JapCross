@@ -88,6 +88,27 @@ Item {
             }
 
             Text {
+                id: lvlFastestTime
+                anchors { left: thumbHolder.right; leftMargin: 5; top: lblTimeSpent.bottom }
+                text: qsTr("Fastest time") + ": " + getFormattedTime(modelData.fastestTime)
+                font.pointSize: 13
+                font.bold: false
+                color: "#fff"
+                visible: modelData.fastestTime ? "visible" : ""
+            }
+
+            Text {
+                id: lvlSolved
+                anchors { right: parent.right; rightMargin: 10; top: parent.top; topMargin: 5 }
+                text: qsTr("Solved")
+                font.pointSize: 14
+                font.bold: true
+                font.capitalization: Font.AllUppercase
+                color: "#fff"
+                visible: modelData.hasHighscore ? "visible" : ""
+            }
+
+            Text {
                 id: lvlAuthor
                 anchors { right: parent.right; rightMargin: 10; bottom: parent.bottom; bottomMargin: 5 }
                 text: qsTr("Author") + ": " + modelData.lvlAuthor

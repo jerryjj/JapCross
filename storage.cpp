@@ -12,9 +12,9 @@
 
 #include <QDebug>
 
-const int VERSION_MAJOR = 0;
-const int VERSION_MINOR = 1;
-const int VERSION_PATCH = 0;
+const int VERSION_MAJOR = 1;
+const int VERSION_MINOR = 0;
+const int VERSION_PATCH = 1;
 
 Storage::Storage(QObject *parent) :
     QObject(parent),
@@ -57,11 +57,18 @@ bool Storage::initialize()
     // Create tables
     if (m_createVersionTable()) {
         m_createSavegameTable();
+        m_createHighscoreTable();
 
         // Check that tables exists
-        if (m_db.tables().count() != 2) ret = false;
+        if (m_db.tables().count() != 3) ret = false;
     } else {
         m_validateVersionTable();
+    }
+
+    if (m_vmajor <= 0 && m_vminor == 1) {
+        ret = m_createHighscoreTable();
+
+        if (m_db.tables().count() != 3) ret = false;
     }
 
     return ret;
@@ -71,11 +78,7 @@ bool Storage::uninstall()
 {
     m_db.close();
 
-    QString path = "";
-    path = m_adjustPath(path);
-    path.append("mnonograms.db");
-
-    return QFile::remove(path);
+    return QFile::remove(m_path);
 }
 
 QSqlError Storage::lastError()
@@ -157,7 +160,6 @@ bool Storage::updateSavedgame(Savegame* m)
     }
 
     return ret;
-
 }
 
 bool Storage::getSavedgame(int grp, int lvl, Savegame* m)
@@ -195,6 +197,90 @@ bool Storage::deleteSavegame(int grp, int lvl)
         QSqlQuery q;
         if (q.prepare("DELETE FROM sg WHERE id = :id")) {
             q.bindValue(":id", query.value(0).toInt());
+            ret = q.exec();
+        }
+
+        return ret;
+    }
+
+    return false;
+}
+
+// for Highscore
+bool Storage::updateHighscore(int grp, int lvl, int timespent)
+{
+    //qDebug() << "updateHighscore";
+
+    if (! m_db.isOpen()) return false;
+    bool ret = false;
+
+    QDateTime now = QDateTime::currentDateTime();
+
+    QSqlQuery q;
+    QSqlQuery query(QString("SELECT rowid FROM hs WHERE grp = %1 AND lvl = %2").arg(grp).arg(lvl));
+    if (query.next()) {
+        ret = q.prepare("UPDATE hs SET created = :created, timespent = :timespent WHERE grp = :grp AND lvl = :lvl");
+    } else {
+        ret = q.prepare("INSERT INTO hs (created, grp, lvl, timespent) "
+            "VALUES (:created, :grp, :lvl, :timespent)");
+    }
+
+    if (ret) {
+        q.bindValue(":created", now.toTime_t());
+        q.bindValue(":grp", grp);
+        q.bindValue(":lvl", lvl);
+        q.bindValue(":timespent", timespent);
+
+        ret = q.exec();
+    }
+
+    return ret;
+}
+
+bool Storage::getHighscore(int grp, int lvl, Highscore* m)
+{
+    //qDebug() << "getHighscore" << grp << "," << lvl;
+    if (! m_db.isOpen()) return false;
+
+    QSqlQuery q(QString("SELECT created,grp,lvl,timespent FROM hs WHERE grp = %1 AND lvl = %2").arg(grp).arg(lvl));
+    if (q.next()) {
+        m->created = q.value(0).toInt();
+        m->grp = q.value(1).toInt();
+        m->lvl = q.value(2).toInt();
+        m->timespent = q.value(3).toInt();
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Storage::isNewHighscore(int grp, int lvl, int timespent)
+{
+    bool ret = false;
+
+    QSqlQuery q(QString("SELECT timespent FROM hs WHERE grp = %1 AND lvl = %2").arg(grp).arg(lvl));
+    if (q.next()) {
+        if (q.value(0).toInt() > timespent) {
+            ret = true;
+        }
+    } else {
+        ret = true;
+    }
+
+    return ret;
+}
+
+bool Storage::deleteHighscore(int grp, int lvl)
+{
+    if (! m_db.isOpen()) return false;
+    bool ret = false;
+
+    QSqlQuery query(QString("SELECT rowid FROM hs WHERE grp = %1 AND lvl = %2").arg(grp).arg(lvl));
+    if (query.next()) {
+        QSqlQuery q;
+        if (q.prepare("DELETE FROM hs WHERE rowid = :rowid")) {
+            q.bindValue(":rowid", query.value(0).toInt());
             ret = q.exec();
         }
 
@@ -271,6 +357,22 @@ bool Storage::m_createSavegameTable()
                      "cover integer, "
                      "cused text, "
                      "cmarked text)");
+
+    return ret;
+}
+
+bool Storage::m_createHighscoreTable()
+{
+    if (! m_db.isOpen()) return false;
+    bool ret = false;
+    QSqlQuery query;
+
+    ret = query.exec("CREATE TABLE hs "
+                     "(id integer primary key, "
+                     "created integer, "
+                     "grp integer, "
+                     "lvl integer, "
+                     "timespent integer)");
 
     return ret;
 }

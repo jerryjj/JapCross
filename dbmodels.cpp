@@ -1,7 +1,5 @@
 #include "dbmodels.h"
 
-#include <QDebug>
-
 Savegame::Savegame()
 {
     id = 0;
@@ -38,4 +36,13 @@ QStringList Savegame::getMarkedCells()
     QStringList s;
     if (cells_marked == "") return s;
     return cells_marked.split(",");
+}
+
+Highscore::Highscore()
+{
+    created = 0;
+
+    grp = 0;
+    lvl = 0;
+    timespent = 0;
 }

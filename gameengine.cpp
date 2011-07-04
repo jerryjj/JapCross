@@ -62,12 +62,16 @@ void GameEngine::levelPrepared()
 void GameEngine::levelDone()
 {
     //qDebug() << "level done";
+
+    if (m_storage->isNewHighscore(m_active_level.grp, m_active_level.lvl, m_active_level.timespent())) {
+        m_storage->updateHighscore(m_active_level.grp, m_active_level.lvl, m_active_level.timespent());
+    }
+
     emit levelFinished();
 }
 
 void GameEngine::markPlayableCell(int index)
 {
-    //TODO: do point collection here
     //qDebug() << "GameEngine::markPlayableSquare" << index;
 
     m_active_level.markPlayableCell(index);

@@ -18,6 +18,16 @@
     </message>
     <message>
         <location filename="qml/JapCross/Menu/LevelList.qml" line="93"/>
+        <source>Fastest time</source>
+        <translation>Nopein aika</translation>
+    </message>
+    <message>
+        <location filename="qml/JapCross/Menu/LevelList.qml" line="103"/>
+        <source>Solved</source>
+        <translation>Ratkaistu</translation>
+    </message>
+    <message>
+        <location filename="qml/JapCross/Menu/LevelList.qml" line="114"/>
         <source>Author</source>
         <translation>Julkaisija</translation>
     </message>

@@ -45,13 +45,13 @@ public:
     int timespent() const { return m_timespent; }
     void setTimespent(int v) { m_timespent = v; emit timespentChanged(); }
 
-//    Q_PROPERTY(bool hasHighscore READ hasHighscore WRITE setHasHighscore NOTIFY hasHighscoreChanged)
-//    bool hasHighscore() const { return m_has_hs; }
-//    void setHasHighscore(bool state) { if(state==m_has_hs) return; m_has_hs = state; emit hasHighscoreChanged(); }
+    Q_PROPERTY(bool hasHighscore READ hasHighscore NOTIFY hasHighscoreChanged)
+    bool hasHighscore() const { return m_has_hs; }
+    void setHasHighscore(bool state) { if(state==m_has_hs) return; m_has_hs = state; emit hasHighscoreChanged(); }
 
-//    Q_PROPERTY(int score READ score WRITE setScore NOTIFY scoreChanged)
-//    int score() const { return m_score; }
-//    void setScore(int v) { m_score = v; emit scoreChanged(); }
+    Q_PROPERTY(int fastestTime READ fastestTime NOTIFY fastestTimeChanged)
+    int fastestTime() const { return m_fastest_time; }
+    void setFastestTime(int v) { m_fastest_time = v; emit fastestTimeChanged(); }
 
 signals:
     void grpChanged();
@@ -64,8 +64,8 @@ signals:
     void colsChanged();
     void timespentChanged();
 
-//    void hasHighscoreChanged();
-//    void scoreChanged();
+    void hasHighscoreChanged();
+    void fastestTimeChanged();
 
 private:
     int m_grp;
@@ -78,8 +78,8 @@ private:
     int m_cols;
     int m_timespent;
 
-//    bool m_has_hs;
-//    int m_score;
+    bool m_has_hs;
+    int m_fastest_time;
 
 };
 

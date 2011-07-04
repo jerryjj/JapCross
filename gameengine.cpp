@@ -24,7 +24,7 @@ void GameEngine::setStorage(Storage *str)
 
 void GameEngine::loadLevel(int grp, int idx)
 {
-    qDebug() << "loadLevel" << grp << "," << idx;
+    //qDebug() << "loadLevel" << grp << "," << idx;
 
     m_requested_level_available = false;
     stateMachine().setGameUIVisible(false);
@@ -50,7 +50,7 @@ void GameEngine::startLevelLoad()
 
 void GameEngine::levelPrepared()
 {
-    qDebug() << "level prepared";
+    //qDebug() << "level prepared";
 
     emit levelChanged();
     emit levelReady();
@@ -61,7 +61,7 @@ void GameEngine::levelPrepared()
 
 void GameEngine::levelDone()
 {
-    qDebug() << "level done";
+    //qDebug() << "level done";
     emit levelFinished();
 }
 

@@ -9,6 +9,7 @@ Level::Level(QObject *parent) :
     m_rows(0),
     m_cols(0),
     m_timespent(0),
+    m_paused(false),
     m_finished(false)
 {
     m_timer = new QTimer(this);
@@ -108,7 +109,38 @@ bool Level::prepare()
 
     int cell_count = m_cols * m_rows;
 
-    for (int i=0; i<cell_count; ++i) {
+    int i=0;
+    for (int r=0; r<m_rows; r++) {
+        for (int c=0; c<m_cols; c++) {
+            PlayableCell *s = new PlayableCell;
+            s->setActive(false);
+            s->setInUse(false);
+            s->setRow(r+1);
+            s->setCol(c+1);
+
+            if (m_required_cells.contains(i)) s->setRequired(true);
+
+            if (m_used_cells.size() > 0) {
+                if (m_used_cells.contains(QString("%1").arg(i))) {
+                    s->setActive(true);
+                    s->setInUse(true);
+                }
+            }
+
+            if (m_marked_cells.size() > 0) {
+                if (m_marked_cells.contains(QString("%1").arg(i))) {
+                    s->setInUse(true);
+                    s->setActive(false);
+                }
+            }
+
+            m_playable_cells << s;
+
+            i++;
+        }
+    }
+
+    /*for (int i=0; i<cell_count; ++i) {
         PlayableCell *s = new PlayableCell;
         s->setActive(false);
         s->setInUse(false);
@@ -133,7 +165,7 @@ bool Level::prepare()
         }
 
         m_playable_cells << s;
-    }
+    }*/
 
     QList<PlayableCell *> mid;
 
@@ -241,6 +273,21 @@ void Level::timerUpdated()
 {
     m_timespent += 1;
     emit timespentChanged();
+}
+
+void Level::pauseLevel()
+{
+    if (m_paused) return;
+
+    m_timer->stop();
+    m_paused = true;
+}
+
+void Level::continueLevel()
+{
+    if (!m_paused) return;
+    m_timer->start(1000);
+    m_paused = false;
 }
 
 QDataStream &operator << (QDataStream &out, const Level &lvl)

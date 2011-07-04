@@ -84,6 +84,9 @@ public slots:
 
     void timerUpdated();
 
+    void pauseLevel();
+    void continueLevel();
+
 public:
     int grp;
     int lvl;
@@ -114,6 +117,7 @@ private:
     int m_timespent;
     QTimer *m_timer;
 
+    bool m_paused;
     bool m_finished;
 };
 

@@ -5,33 +5,42 @@ Item {
 
     property string text: ""
     property bool disabled: false
+    property bool pressed: false
     signal clicked
 
     // Suitable default size
     width: parent.width
-    height: 60
+    height: 50
+
+    function getLabelModel(lbl) {
+        var letters = lbl.split("");
+        var model = Qt.createQmlObject('import Qt 4.7; ListModel {}', container);
+
+        for (var i = 0; i < letters.length; i++) {
+            model.append({letter: letters[i]});
+        }
+
+        return model;
+    }
 
     Rectangle {
         id: numberHolder
-        width: 60; height: parent.height
+        width: 50; height: parent.height
         anchors.left: parent.left
         border.color: "#abacad"
         border.width: 1
 
-        color: "#fff"
+        color: "#562a7a"
 
         Text {
             font.family: "nokia"
             font.pointSize: 26
             smooth: true
-            color: {
-                if (container.disabled)
-                    "#ccc"
-                else
-                    "#333"
-            }
             anchors.centerIn: parent
-            text: container.text.length
+            color: "#fff"
+            //color: container.disabled ? "#ccc" : "#333"
+            //text: container.text.length
+            text: "!"
         }
     }
 
@@ -42,25 +51,42 @@ Item {
         border.color: "#abacad"
         border.width: 1
 
-        color: "#fff"
+        color: container.pressed ? "#562a7a" : "#fff"
 
         Text {
             font.family: "nokia"
             font.pointSize: 26
             font.bold: true
             smooth: true
-            color: {
-                if (container.disabled)
-                    "#ccc"
-                else
-                    "#562a7a"
-            }
+            color: container.disabled ? "#ccc" : (container.pressed ? "#fff" : "#562a7a")
             anchors.centerIn: parent
             text: container.text
         }
+
+        /*Row {
+            Repeater {
+                model: getLabelModel(container.text)
+                delegate: Rectangle {
+                    width: numberHolder.width; height: numberHolder.height
+                    border.color: "#abacad"
+                    border.width: 1
+                    color: "#fff"
+
+                    Text {
+                        font.family: "nokia"
+                        font.pointSize: 26
+                        font.bold: true
+                        smooth: true
+                        color: container.disabled ? "#ccc" : "#562a7a"
+                        anchors.centerIn: parent
+                        text: modelData
+                    }
+                }
+            }
+        }*/
     }
 
-    Rectangle {
+    /*Rectangle {
         id: pressed
         width: parent.width - numberHolder.width; height: parent.height
         x: numberHolder.x + numberHolder.width + 1
@@ -84,7 +110,7 @@ Item {
             GradientStop { position: 0.0; color: "#fff" }
             GradientStop { position: 1.0; color: "#562a7a" }
         }
-    }
+    }*/
 
 
     MouseArea {
@@ -106,7 +132,8 @@ Item {
     states: [
     State {
         name: "Pressed"
-        PropertyChanges { target: pressed; opacity: 1 }
+        PropertyChanges { target: container; pressed: true }
+        //PropertyChanges { target: pressed; opacity: 1 }
     }
     ]
     transitions: Transition {

@@ -112,6 +112,10 @@ bool Level::prepare()
         PlayableCell *s = new PlayableCell;
         s->setActive(false);
         s->setInUse(false);
+
+        s->setRow((i / m_cols) + 1);
+        s->setCol((i % m_cols) + 1);
+
         if (m_required_cells.contains(i)) s->setRequired(true);
 
         if (m_used_cells.size() > 0) {

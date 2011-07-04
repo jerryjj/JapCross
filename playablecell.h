@@ -25,10 +25,21 @@ public:
     bool required() const { return m_required; }
     void setRequired(bool state) { if(state==m_required) return; m_required = state; emit requiredChanged(); }
 
+    Q_PROPERTY(int row READ row NOTIFY rowChanged)
+    int row() const { return m_row; }
+    void setRow(int v) {m_row = v;}
+
+    Q_PROPERTY(int col READ col NOTIFY colChanged)
+    int col() const { return m_col; }
+    void setCol(int v) {m_col = v;}
+
 signals:
     void inUseChanged();
     void activeChanged();
     void requiredChanged();
+
+    void rowChanged();
+    void colChanged();
 
 public slots:
     int getCurrentStatus();
@@ -37,6 +48,9 @@ private:
     bool m_inuse;
     bool m_active;
     bool m_required;
+
+    int m_row;
+    int m_col;
 
 };
 

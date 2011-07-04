@@ -38,8 +38,8 @@ Item {
 
         contentWidth: boardLevel.width
         contentHeight: boardLevel.height
-        maximumFlickVelocity: 500
-        flickDeceleration: 1000
+        //maximumFlickVelocity: 500
+        //flickDeceleration: 1000
         clip: true
 
         Level {

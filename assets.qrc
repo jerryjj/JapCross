@@ -8,5 +8,9 @@
         <file>qml/JapCross/images/menu.png</file>
         <file>qml/JapCross/images/logo-portrait.png</file>
         <file>qml/JapCross/images/clear.png</file>
+        <file>qml/JapCross/images/cell-border-darker-t.png</file>
+        <file>qml/JapCross/images/cell-border-darker-r.png</file>
+        <file>qml/JapCross/images/cell-border-darker-l.png</file>
+        <file>qml/JapCross/images/cell-border-darker-b.png</file>
     </qresource>
 </RCC>

@@ -11,6 +11,14 @@ AppWindow {
         menuPanel.state = "showMain";
     }
 
+    onWindowactiveChanged: {
+        if (! windowactive) {
+            gameEngine.pauseGame();
+        } else {
+            gameEngine.continueGame();
+        }
+    }
+
     Connections {
         target: gameEngine
 

@@ -6,7 +6,7 @@ Item {
     property string hpos: "left"
     property int sridx: index
 
-    width: (modelData.itemCount() * 25)
+    width: (modelData.itemCount() * 30)
     height: 40
 
     anchors.right: hpos == "left" ? (parent ? parent.right : undefined) : undefined

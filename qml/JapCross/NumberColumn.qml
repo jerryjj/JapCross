@@ -6,8 +6,8 @@ Item {
     property int idx: 0
     property string cpos: "top"
 
-    width: ((cpos == "top" || cpos == "bottom") ? 40 : (modelData.inUse ? 25 : 0))
-    height: ((cpos == "top" || cpos == "bottom") ? (modelData.inUse ? 25 : 0) : 40)
+    width: ((cpos == "top" || cpos == "bottom") ? 40 : (modelData.inUse ? 30 : 0))
+    height: ((cpos == "top" || cpos == "bottom") ? (modelData.inUse ? 30 : 0) : 40)
 
     MouseArea {
         anchors.fill: parent
@@ -20,6 +20,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: "#E7E3CE"
+        smooth: false
         visible: modelData.inUse
 
         Rectangle {

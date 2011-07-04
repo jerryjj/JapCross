@@ -38,7 +38,7 @@ bool Storage::connect()
     m_path = m_adjustPath(m_path);
     m_path.append("mnonograms.db");
 
-    qDebug() << "DB path: " << m_path;
+    //qDebug() << "DB path: " << m_path;
     m_db.setDatabaseName(m_path);
 
     // Open databasee

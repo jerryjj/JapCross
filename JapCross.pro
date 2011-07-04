@@ -48,10 +48,6 @@ SOURCES += main.cpp \
     dbmodels.cpp \
     storage.cpp
 
-# Please do not modify the following two lines. Required for deployment.
-include(qmlapplicationviewer/qmlapplicationviewer.pri)
-qtcAddDeployment()
-
 OTHER_FILES += \
     qtc_packaging/debian_fremantle/rules \
     qtc_packaging/debian_fremantle/README \
@@ -65,7 +61,9 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog \
-    qtc_packaging/debian_harmattan/postinst
+    qtc_packaging/debian_harmattan/postinst \
+    qtc_packaging/debian_harmattan/mnonograms.desktop \
+    qtc_packaging/debian_harmattan/mnonograms.conf
 
 HEADERS += \
     gameengine.h \
@@ -83,7 +81,8 @@ HEADERS += \
 RESOURCES += \
     assets.qrc \
     ui.qrc \
-    levels.qrc
+    levels.qrc \
+    localizations.qrc
 
 maemo5 {
     icon.files = icons/icon-64x64.png
@@ -92,6 +91,12 @@ maemo5 {
     INSTALLS += \
         icon
 }
+
+TRANSLATIONS = qml-translations.en.ts qml-translations.fi.ts
+
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()
 
 # Harmattan
 unix:!symbian:!maemo5:!macx {
@@ -104,16 +109,26 @@ unix:!symbian:!maemo5:!macx {
 
     target.path = /opt/usr/bin
 
-    desktopfile.files = qtc_packaging/debian_harmattan/$${TARGET}.desktop
+    desktopfile.files = qtc_packaging/debian_harmattan/mnonograms.desktop
     desktopfile.path = /usr/share/applications
 
-    icon.files = icons/icon-harmattan-64x64.png
+    icon.files = icons/mnonograms-harmattan_64x64.png
     icon.path = /usr/share/icons/hicolor/64x64/apps
+
+    splash.files = qml/JapCross/images/splash-screen-800x480.png
+    splash.path = /usr/share/$${TARGET}
+
+    gameclassify.files += qtc_packaging/debian_harmattan/mnonograms.conf
+    gameclassify.path = /usr/share/policy/etc/syspart.conf.d
+
+    DEPLOYMENTFOLDERS -= folder_01
 
     INSTALLS += \
         target \
         desktopfile \
-        icon
+        icon \
+        splash \
+        gameclassify
 
     # enable booster
     CONFIG += qdeclarative-boostable
@@ -125,3 +140,9 @@ unix:!symbian:!maemo5:!macx {
     OTHER_FILES += \
         qml/JapCross/no_components.qml
 }
+
+#unix:!symbian:!maemo5 {
+#    desktopfile.files = $${TARGET}.desktop
+#    desktopfile.path = /usr/share/applications
+#    INSTALLS += desktopfile
+#}

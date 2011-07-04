@@ -8,4 +8,5 @@ design/
 /JapCross
 debian/
 japcross_*.changes
+fi_infigo_mnonograms_*.changes
 *.deb
